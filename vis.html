@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script type="text/javascript" src="./node_modules/vis/dist/vis.js"></script>
+    <script type="text/javascript" src="./visGraphOptions.js"></script>
+    <link href="./node_modules/vis/dist/vis.css" rel="stylesheet" type="text/css" />
+    <link href="./css/custom.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+var container = document.getElementById('mynetwork');
+    // create an array with nodes
+    fetch('http://localhost:3050/initialdata')
+    .then(response => response.json())
+    .then(response =>{
+        var nodes = new vis.DataSet(response.seperateNodes);
+        var edges = new vis.DataSet(response.seperateEdges);
+        // provide the data in the vis format
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        console.log(data);
+
+        var options = visGraphOptions;
+        // initialize your network!
+        var network = new vis.Network(container, data, options);
+    })
+    .catch(err => {
+        console.log(err);
+        alert('Error');
+    });
+</script>
+</body>
+</html>

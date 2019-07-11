@@ -1,0 +1,15 @@
+{
+    "node": {
+        "Organisation": "red"
+
+    },
+    "edges": {
+        "Shares_Knowledge": "blue",
+        "Conducts_Workshops": "red",
+        "Reviews_Tool": "green",
+        "Creates_Processes": "yellow",
+        "Provides_Content": "pink",
+        "Updates_Guidelines":"orange",
+        "Consumes_Data":"grey"
+    }
+}

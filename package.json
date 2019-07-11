@@ -1,0 +1,17 @@
+{
+  "name": "neo4jdatadriver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RK",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.14",
+    "neo4j-driver": "^1.7.5",
+    "vis": "^4.21.0"
+  }
+}
