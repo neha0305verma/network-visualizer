@@ -8,6 +8,10 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./modules/dashboard-d3/dashboard-d3.module": [
+		"./src/app/modules/dashboard-d3/dashboard-d3.module.ts",
+		"modules-dashboard-d3-dashboard-d3-module"
+	],
 	"./modules/dashboard-v2/dashboard-v2.module": [
 		"./src/app/modules/dashboard-v2/dashboard-v2.module.ts",
 		"common",
@@ -61,6 +65,10 @@ var routes = [
     {
         path: "v2",
         loadChildren: "./modules/dashboard/dashboard.module#DashboardModule"
+    },
+    {
+        path: "d3",
+        loadChildren: "./modules/dashboard-d3/dashboard-d3.module#DashboardD3Module"
     },
     {
         path: "",
