@@ -28975,7 +28975,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"canvas\"></div>"
+module.exports = "<div class=\"creationToolbar\">\n    <app-create-nodes [nodeTypes]=\"totalTypesArray\" (nodeBtnEvent)=\"nodeEventCapture($event)\" (edgeBtnEvent)=\"edgeEventCapture($event)\"></app-create-nodes>\n</div>\n<!-- <button class=\"shownoti ui green icon button\" suiPopup popupHeader=\"Example\" popupText=\"This is an example popup\">\n    <i class=\"add icon\"></i>\n</button> -->\n<div id=\"canvas\"></div>"
 
 /***/ }),
 
@@ -29011,11 +29011,17 @@ __webpack_require__.r(__webpack_exports__);
 var GraphD3VisualizerComponent = /** @class */ (function () {
     function GraphD3VisualizerComponent(graphService) {
         this.graphService = graphService;
+        this.totalTypesArray = [];
+        this.selectedNodes = [];
+        this.linkCreateDrag = false;
         this.graphData = {};
         this.data = {};
         this.circleRadius = 25;
         this.linkColor = "#696969";
         this.relationColor = "#696969";
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.lineLength = 130;
         this.colorConfig = {
             defaultColor: {
                 "Academia": '#C990C0',
@@ -29046,31 +29052,14 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
                 "Research Institute": '#c51162'
             }
         };
-        this.drag = function (simulation) {
-            function dragstarted(d) {
-                if (!d3__WEBPACK_IMPORTED_MODULE_2__["event"].active)
-                    simulation.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
-            }
-            function dragged(d) {
-                d.fx = d3__WEBPACK_IMPORTED_MODULE_2__["event"].x;
-                d.fy = d3__WEBPACK_IMPORTED_MODULE_2__["event"].y;
-            }
-            // function dragended(d) {
-            //   if (!d3.event.active) simulation.alphaTarget(0);
-            //   d.fx = null;
-            //   d.fy = null;
-            // }
-            return d3__WEBPACK_IMPORTED_MODULE_2__["drag"]()
-                .on("start", dragstarted)
-                .on("drag", dragged);
-            // .on("end", dragended);
-        };
+        this.tooltip = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("#canvas")
+            .append("div")
+            .attr("class", "tooltip");
     }
     GraphD3VisualizerComponent.prototype.ngOnInit = function () {
         this.displayInitialGraph();
     };
+    // fetch initial data
     GraphD3VisualizerComponent.prototype.displayInitialGraph = function () {
         var _this = this;
         this.graphService.getInitialDataV2().subscribe(function (result) {
@@ -29098,35 +29087,43 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
             _this.graphData = {};
         });
     };
+    // populate graph
     GraphD3VisualizerComponent.prototype.d3SimpleGraph = function () {
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-        var lineLength = 130;
         var svg = d3__WEBPACK_IMPORTED_MODULE_2__["select"]('#canvas').append('svg')
-            .attr('width', width)
-            .attr('height', height);
-        var links = this.graphData['links'].map(function (d) { return Object.create(d); });
-        var nodes = this.graphData['nodes'].map(function (d) { return Object.create(d); });
-        var tooltip = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("#canvas")
-            .append("div")
-            .attr("class", "tooltip");
-        var simulation = d3__WEBPACK_IMPORTED_MODULE_2__["forceSimulation"](nodes)
-            .force("link", d3__WEBPACK_IMPORTED_MODULE_2__["forceLink"](links).id(function (d) { return d['id']; }).distance(lineLength))
-            .force("center", d3__WEBPACK_IMPORTED_MODULE_2__["forceCenter"](width / 2, height / 2))
+            .attr('width', this.width)
+            .attr('height', this.height);
+        this.restartSimulation();
+    };
+    // to reset whole graph
+    GraphD3VisualizerComponent.prototype.restartSimulation = function () {
+        var _this = this;
+        // first remove the previous graph
+        d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").selectAll("g").remove();
+        d3__WEBPACK_IMPORTED_MODULE_2__["selectAll"](".tooltip").remove();
+        this.simulation = d3__WEBPACK_IMPORTED_MODULE_2__["forceSimulation"](this.graphData['nodes'])
+            .force("link", d3__WEBPACK_IMPORTED_MODULE_2__["forceLink"](this.graphData['links']).id(function (d) { return d['id']; }).distance(this.lineLength))
+            .force("center", d3__WEBPACK_IMPORTED_MODULE_2__["forceCenter"](this.width / 2, this.height / 2))
             .force("charge", d3__WEBPACK_IMPORTED_MODULE_2__["forceManyBody"]().strength(-800)) // Nodes are attracted one each other of value is > 0
             .force("collide", d3__WEBPACK_IMPORTED_MODULE_2__["forceCollide"]().strength(.1).radius(45).iterations(1)); // Force that avoids circle overlapping
+        this.setAttribute();
+        this.simulation.on("tick", function () {
+            _this.simulationTick();
+        });
+    };
+    // set attribute of node,edge and labels
+    GraphD3VisualizerComponent.prototype.setAttribute = function () {
         // edge label
-        var link = svg.append("g")
+        this.link = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g")
             .attr("stroke", this.linkColor)
             .attr("stroke-opacity", 0.6)
             .selectAll("line")
-            .data(links)
+            .data(this.graphData['links'])
             .join("line")
             .attr("stroke-width", function (d) { return Math.sqrt(d['value']); });
-        link.append("title")
+        this.link.append("title")
             .text(function (d) { return d['type']; });
-        var edgepaths = svg.selectAll(".edgepath")
-            .data(links)
+        this.edgepaths = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g").selectAll(".edgepath")
+            .data(this.graphData['links'])
             .enter()
             .append('path')
             .attr('class', 'edgepath')
@@ -29134,8 +29131,8 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
             .attr('stroke-opacity', 0)
             .attr('id', function (d, i) { return 'edgepath' + i; })
             .style("pointer-events", "none");
-        var edgelabels = svg.selectAll(".edgelabel")
-            .data(links)
+        this.edgelabels = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g").selectAll(".edgelabel")
+            .data(this.graphData['links'])
             .enter()
             .append('text')
             .style("pointer-events", "none")
@@ -29143,26 +29140,26 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
             .attr('id', function (d, i) { return 'edgelabel' + i; })
             .attr('font-size', 10)
             .attr('fill', this.relationColor);
-        edgelabels.append('textPath')
+        this.edgelabels.append('textPath')
             .attr('xlink:href', function (d, i) { return '#edgepath' + i; })
             .style('text-anchor', 'middle')
             .style('pointer-events', 'none')
             .attr('startOffset', '50%')
             .text(function (d) { return d['type']; });
-        var node = svg.append("g")
+        this.node = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g")
             .attr("stroke", "#fff") // for the border of circle
             .attr("stroke-width", 1.5) // for the border of circle
             .selectAll("circle")
-            .data(nodes)
+            .data(this.graphData['nodes'])
             .join("circle")
             .attr("r", this.circleRadius) // circle radius
             .attr("fill", this.color()) // circle color
-            .call(this.drag(simulation));
+            .call(this.drag(this.simulation, this.linkCreateDrag));
         // node labels
-        var nodelabels = svg.append("g")
+        this.nodelabels = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g")
             .attr("class", "labels")
             .selectAll("text")
-            .data(nodes)
+            .data(this.graphData['nodes'])
             .enter().append("text")
             .attr('text-anchor', 'middle')
             .attr('dominant-baseline', 'central')
@@ -29170,62 +29167,64 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
             .style('font-size', '15px')
             .style("pointer-events", "none")
             .text(function (d) { return d['label']; })
-            .call(this.drag(simulation));
-        simulation.on("tick", function () {
-            edgepaths.attr('d', function (d) {
-                return 'M ' + d['source'].x + ' ' + d['source'].y + ' L ' + d['target'].x + ' ' + d['target'].y;
-            });
-            edgelabels.attr('transform', function (d) {
-                if (d['target'].x < d['source'].x) {
-                    var bbox = this.getBBox();
-                    var rx = bbox.x + bbox.width / 2;
-                    var ry = bbox.y + bbox.height / 2;
-                    return 'rotate(180 ' + rx + ' ' + ry + ')';
-                }
-                else {
-                    return 'rotate(0)';
-                }
-            });
-            // update label positions
-            nodelabels
-                .attr("x", function (d) { return d['x']; })
-                .attr("y", function (d) { return d['y']; });
-            link
-                .attr("x1", function (d) { return d['source'].x; })
-                .attr("y1", function (d) { return d['source'].y; })
-                .attr("x2", function (d) { return d['target'].x; })
-                .attr("y2", function (d) { return d['target'].y; });
-            node
-                .attr("cx", function (d) { return d['x']; })
-                .attr("cy", function (d) { return d['y']; })
-                .on('mouseover.tooltip', function (d) {
-                tooltip.transition()
-                    .duration(300)
-                    .style("opacity", 10)
-                    .style("background-color", "#fff")
-                    .style("pointer-events", "none")
-                    .style("z-index", "10")
-                    .style('max-width', '200px')
-                    .style('height', 'auto')
-                    .style('padding', '1px')
-                    .style('border-style', 'solid')
-                    .style('border-width', '.5px')
-                    .style('border-radius', '4px')
-                    .style('box-shadow', '1px 1px 5px rgba(0, 0, 0, .5)');
-                tooltip.html("Name : " + d['label'] + "<br>Status : " + d['status'] + "<br>Connection : " + d['connection'] + "<br>Represent : " + d['represent'] + "<br>SP Thinking : " + d['Understanding of SP Thinking'] + "<p/>Type : " + d['type'])
-                    .style("left", (d3__WEBPACK_IMPORTED_MODULE_2__["event"].pageX) + "px")
-                    .style("top", (d3__WEBPACK_IMPORTED_MODULE_2__["event"].pageY + 10) + "px");
-            })
-                .on("mouseout.tooltip", function () {
-                tooltip.transition()
-                    .duration(100)
-                    .style("opacity", 0);
-            });
-        });
+            .call(this.drag(this.simulation, this.linkCreateDrag));
     };
-    GraphD3VisualizerComponent.prototype.color = function () {
-        //const scale = d3.scaleOrdinal(d3.schemeCategory10);
-        return function (d) { return d.color; };
+    // to set all elements properly on window
+    GraphD3VisualizerComponent.prototype.simulationTick = function () {
+        var _this = this;
+        this.edgepaths.attr('d', function (d) {
+            return 'M ' + d['source'].x + ' ' + d['source'].y + ' L ' + d['target'].x + ' ' + d['target'].y;
+        });
+        this.edgelabels.attr('transform', function (d) {
+            if (d['target'].x < d['source'].x) {
+                var bbox = this.getBBox();
+                var rx = bbox.x + bbox.width / 2;
+                var ry = bbox.y + bbox.height / 2;
+                return 'rotate(180 ' + rx + ' ' + ry + ')';
+            }
+            else {
+                return 'rotate(0)';
+            }
+        });
+        // update label positions
+        this.nodelabels
+            .attr("x", function (d) { return d['x']; })
+            .attr("y", function (d) { return d['y']; });
+        this.link
+            .attr("x1", function (d) { return d['source'].x; })
+            .attr("y1", function (d) { return d['source'].y; })
+            .attr("x2", function (d) { return d['target'].x; })
+            .attr("y2", function (d) { return d['target'].y; });
+        console.log('wh', window.innerWidth, window.innerHeight);
+        var r = this.circleRadius;
+        var w = this.width - 80;
+        var h = this.height - 50;
+        this.node.attr("cx", function (d) { return d['x'] = Math.max(r, Math.min(w - r, d['x'])); })
+            .attr("cy", function (d) { return d['y'] = Math.max(r, Math.min(h - r, d['y'])); })
+            .on('mouseover.tooltip', function (d) {
+            _this.relationBetweenNodes(d);
+            _this.tooltip.transition()
+                .duration(300)
+                .style("opacity", 10)
+                .style("background-color", "#fff")
+                .style("pointer-events", "none")
+                .style("z-index", "10")
+                .style('max-width', '200px')
+                .style('height', 'auto')
+                .style('padding', '1px')
+                .style('border-style', 'solid')
+                .style('border-width', '.5px')
+                .style('border-radius', '4px')
+                .style('box-shadow', '1px 1px 5px rgba(0, 0, 0, .5)');
+            _this.tooltip.html("Name : " + d['label'] + "<br>Status : " + d['status'] + "<br>Connection : " + d['connection'] + "<br>Represent : " + d['represent'] + "<br>SP Thinking : " + d['Understanding of SP Thinking'] + "<p/>Type : " + d['type'])
+                .style("left", (d3__WEBPACK_IMPORTED_MODULE_2__["event"].pageX) + "px")
+                .style("top", (d3__WEBPACK_IMPORTED_MODULE_2__["event"].pageY + 10) + "px");
+        })
+            .on("mouseout.tooltip", function () {
+            this.tooltip.transition()
+                .duration(100)
+                .style("opacity", 0);
+        });
     };
     GraphD3VisualizerComponent.prototype.addColors = function (nodeObj) {
         var _this = this;
@@ -29238,6 +29237,132 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
         // console.log(nodeObj);
         return nodeObj;
     };
+    // create new node 
+    GraphD3VisualizerComponent.prototype.nodeEventCapture = function (event) {
+        var _this = this;
+        if (Object.keys(event).length > 0) {
+            if (event.action === 'create') {
+                // handle the functionaluty of creating a node
+                var newNodeData = {
+                    id: event.data.id,
+                    label: event.data.properties.Name,
+                    type: [event.data.type],
+                    properties: event.data.properties
+                };
+                // make a request to create a node, if it succeedes only then show in the graph
+                this.graphService.createNewNode(newNodeData).subscribe(function (response) {
+                    console.log(response);
+                    try {
+                        // add the new node to the d3js
+                        console.log("node created");
+                        if (response.hasOwnProperty('seperateNodes')) {
+                            response['seperateNodes'] = _this.addColors(response['seperateNodes']);
+                            response['seperateNodes'].filter(function (node) {
+                                _this.graphData['nodes'].push({ id: node.id, label: node.label, type: node.type[0], connection: node.properties.Connection, status: node.properties.Status, represent: node.properties.Represent, 'Understanding of SP Thinking': node.properties['Understanding of SP Thinking'], color: node.color });
+                            });
+                        }
+                        if (response.hasOwnProperty('seperateEdges')) {
+                            response['seperateEdges'].filter(function (edge) {
+                                _this.graphData['links'].push({ source: edge.from, target: edge.to, type: edge.type, value: 1 });
+                            });
+                        }
+                        console.log('graphData :', _this.graphData);
+                        // display data
+                        _this.d3SimpleGraph();
+                    }
+                    catch (addErr) {
+                        console.log('Error while adding the data node to vis ', addErr['message']);
+                    }
+                }, function (error) {
+                    console.error('An error occured while creating node in  database ', error);
+                });
+            }
+        }
+        else if (event.action === 'edit') {
+            // handle the functionality of editing the node
+        }
+        else if (event.action === 'delete') {
+            // handle the functionality of deleting the node
+        }
+        else {
+            // invalid click event
+            console.error('An invalid click event retrieved ', event);
+        }
+    };
+    // create new relationship
+    GraphD3VisualizerComponent.prototype.edgeEventCapture = function (event) {
+        if (Object.keys(event).length > 0) {
+            console.log('recieved an event ', event);
+            if (event.action === 'create') {
+                console.log("linkcreate", this.linkCreateDrag);
+                this.linkCreateDrag = true;
+                this.setAttribute();
+            }
+            ;
+        }
+    };
+    GraphD3VisualizerComponent.prototype.color = function () {
+        //const scale = d3.scaleOrdinal(d3.schemeCategory10);
+        return function (d) { return d.color; };
+    };
+    GraphD3VisualizerComponent.prototype.drag = function (simulation, linkCreateDrag) {
+        var _this = this;
+        function dragstarted(d) {
+            if (linkCreateDrag) {
+                var lines = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("svg").append("g").append("line")
+                    .attr("id", "newline" + d['id'])
+                    .style("stroke", "gray") // <<<<< Add a color
+                    .attr("x1", d.x)
+                    .attr("y1", d.y)
+                    .attr("x2", d.x)
+                    .attr("y2", d.y);
+            }
+            else {
+                if (!d3__WEBPACK_IMPORTED_MODULE_2__["event"].active)
+                    simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+        }
+        function dragged(d) {
+            if (linkCreateDrag) {
+                var lines = d3__WEBPACK_IMPORTED_MODULE_2__["select"]("#newline" + d['id'])
+                    .attr("x2", d3__WEBPACK_IMPORTED_MODULE_2__["event"].x)
+                    .attr("y2", d3__WEBPACK_IMPORTED_MODULE_2__["event"].y);
+            }
+            else {
+                d.fx = d3__WEBPACK_IMPORTED_MODULE_2__["event"].x;
+                d.fy = d3__WEBPACK_IMPORTED_MODULE_2__["event"].y;
+            }
+        }
+        return d3__WEBPACK_IMPORTED_MODULE_2__["drag"]()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", function () { if (_this.linkCreateDrag) {
+            _this.createNewLink();
+        } });
+    };
+    GraphD3VisualizerComponent.prototype.relationBetweenNodes = function (d) {
+        this.selectedNodes.push(d['id']);
+    };
+    GraphD3VisualizerComponent.prototype.createNewLink = function () {
+        var sourceNodeId = this.selectedNodes[this.selectedNodes.length - 2];
+        var targetNodeId = this.selectedNodes[this.selectedNodes.length - 1];
+        this.selectedNodes = [];
+        // d3.select("#link").remove();
+        this.linkCreateDrag = false;
+        this.graphData['links'].push({ source: sourceNodeId, target: targetNodeId, value: 13 });
+        console.log(this.graphData);
+        this.restartSimulation();
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
+    ], GraphD3VisualizerComponent.prototype, "event", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], GraphD3VisualizerComponent.prototype, "totalTypesArray", void 0);
     GraphD3VisualizerComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-graph-d3-visualizer',
@@ -29260,7 +29385,7 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-graph-d3-visualizer></app-graph-d3-visualizer>"
+module.exports = "<app-graph-d3-visualizer [event]=\"clickedEvent\" [totalTypesArray]=\"totalTypesArray\"></app-graph-d3-visualizer>"
 
 /***/ }),
 
@@ -29291,8 +29416,18 @@ __webpack_require__.r(__webpack_exports__);
 
 var MainD3Component = /** @class */ (function () {
     function MainD3Component() {
+        this.totalTypesArray = [];
     }
     MainD3Component.prototype.ngOnInit = function () {
+    };
+    MainD3Component.prototype.childEventClicked = function (event) {
+        this.clickedEvent = event;
+    };
+    MainD3Component.prototype.sendTypes = function (event) {
+        if (!!event && event.length > 0) {
+            console.log('sending types', event);
+            this.totalTypesArray = event;
+        }
     };
     MainD3Component = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -29363,6 +29498,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_main_d3_main_d3_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/main-d3/main-d3.component */ "./src/app/modules/dashboard-d3/components/main-d3/main-d3.component.ts");
 /* harmony import */ var _dashboard_d3_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dashboard-d3-routing.module */ "./src/app/modules/dashboard-d3/dashboard-d3-routing.module.ts");
 /* harmony import */ var _core_core_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../core/core.module */ "./src/app/modules/core/core.module.ts");
+/* harmony import */ var _dashboard_v2_dashboard_v2_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../dashboard-v2/dashboard-v2.module */ "./src/app/modules/dashboard-v2/dashboard-v2.module.ts");
+
 
 
 
@@ -29379,7 +29516,8 @@ var DashboardD3Module = /** @class */ (function () {
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
                 _dashboard_d3_routing_module__WEBPACK_IMPORTED_MODULE_5__["DashboardD3RoutingModule"],
-                _core_core_module__WEBPACK_IMPORTED_MODULE_6__["CoreModule"]
+                _core_core_module__WEBPACK_IMPORTED_MODULE_6__["CoreModule"],
+                _dashboard_v2_dashboard_v2_module__WEBPACK_IMPORTED_MODULE_7__["DashboardModule"]
             ]
         })
     ], DashboardD3Module);

@@ -3,7 +3,7 @@
     "user": "neo4j",
     "password": "password",
     "initial_query": "match (p) -[r]-> (q) return p,q,r",
-    "initial_query_v2": "match (p) -[r]-> (q) return p,q,r limit 149",
+    "initial_query_v2": "MATCH (p) OPTIONAL MATCH (p)-[r]-(q) return p,r,q",
     "neo4j_search_token": "DDCE5DBC3AA826EA295F963113B4F",
-    "default_node_limit": 149
+    "default_node_limit": 200
 }

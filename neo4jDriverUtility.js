@@ -5,6 +5,7 @@ const neoConfig = require('./database_config/config.json');
 
 //import serializer to serialize for visJS format
 const serializer = require('./utility/serializer');
+const serializerv2 = require('./utility/serializerv2');
 
 const { user, password } = neoConfig;
 
@@ -346,7 +347,7 @@ var getDataV2 = (query) => {
     }
     return runQuery(query)
         .then(result => {
-            let serializedData = serializer.Neo4JtoVisFormat(JSON.stringify(result.records));
+            let serializedData = serializerv2.Neo4JtoVisFormat(JSON.stringify(result.records));
             console.log('serialized data is ', serializedData.seperateNodes.length, serializedData.seperateEdges.length);
             neo4Jdriver.close();
             return new Promise((res, rej) => {
@@ -652,14 +653,14 @@ function addProperties(properties) {
     Object.keys(properties).forEach(key => {
         queries.push(`\`${key}\`:"${properties[key]}"`);
     });
-    
+
     return '{' + queries.join(',') + '}';
 }
 
 function createNewNodeQuery(data) {
     let query = 'merge ';
     let subQuery = '';
-    
+
     // first add the type to  the new node
     subQuery = `(n:\`${data.type[0]}\` `;
     subQuery += addProperties(data.properties);
@@ -674,16 +675,15 @@ var createNode = (request) => {
     // the task is to create a query basis the information provided
     let data = request.body;
 
-    if(!data.hasOwnProperty('type')) {
+    if (!data.hasOwnProperty('type')) {
         console.log('API : node/create | ERROR encountered while reading data for creating a node -> type key missing');
-        return Promise.reject({error : 'Cannot create a node without a type'});
-    }
-    else {
+        return Promise.reject({ error: 'Cannot create a node without a type' });
+    } else {
         // a type is present, can go further
         let query = createNewNodeQuery(data);
         return runQuery(query).then(response => {
-            let serializedData = serializer.Neo4JtoVisFormat(JSON.stringify(response.records));
-            return Promise.resolve(serializedData);
+                let serializedData = serializer.Neo4JtoVisFormat(JSON.stringify(response.records));
+                return Promise.resolve(serializedData);
             })
             .catch(err => {
                 console.log('\nAn error occured while runnning the query for create node', err);

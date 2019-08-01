@@ -21,6 +21,7 @@ import { CreateNodesComponent } from './components/create-nodes/create-nodes.com
     SuiSelectModule, SuiModule,
     SharedModule,
     DashboardV2RoutingModule
-  ]
+  ],
+  exports: [CreateNodesComponent]
 })
 export class DashboardModule { }
