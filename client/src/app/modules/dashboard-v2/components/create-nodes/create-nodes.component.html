@@ -15,18 +15,18 @@
       Relationships
     </button>
     <div class="dropdown-menu">
-      <a class="dropdown-item create" (click)="createRelation()"><span class="fas fa-plus-circle"></span>Create Relationship</a>
+      <a class="dropdown-item create" (click)="createRelation()" data-toggle="modal" data-target="#createRelationModal"><span class="fas fa-plus-circle"></span>Create Relationship</a>
       <a class="dropdown-item edit" (click)="editRelation()"><span class="far fa-edit"></span>Edit Relationship</a>
       <a class="dropdown-item delete" (click)="deleteRelation()"><span class="far fa-trash-alt"></span>Delete Relationship</a>
     </div>
 </div>
 </div>
 <!--modal template to show when node is to be created-->
-<div class="modal fade" id="createNodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createNodeModal" tabindex="-1" role="dialog" aria-labelledby="NodeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Node</h5>
+          <h5 class="modal-title" id="NodeModalLabel">Create Node</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -77,5 +77,96 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
   <!--modal node create end-->
+
+
+  <!--modal relationship start-->
+  <div class="modal fade" id="createRelationModal" tabindex="-1" role="dialog" aria-labelledby="RelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="RelModalLabel">Create Relationship</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modalItem">
+            <p class="sectionName">
+              Type
+            </p>
+           <span class="inputSpan">
+              <sui-multi-select [(ngModel)]="selectedType" (ngModelChange)="updateRelProperties($event)" [options]="relationTypeOptions" [maxSelected]="1" #typeRel>
+                  <div class="ui icon search input">
+                      <i class="search icon"></i>
+                      <input suiSelectSearch type="text" placeholder="Search Type...">
+                  </div>
+                  <div class="scrolling menu">
+                      <sui-select-option *ngFor="let o of typeRel.filteredOptions" [value]="o">
+
+                      </sui-select-option>
+
+                  </div>
+              </sui-multi-select>
+            </span>
+          </div>
+          <div class="modalItem" *ngIf="typeProperties.length > 0">
+            <h5 class="propertyLabel">
+                Properties <span class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" [title]="toolTipText"></span>
+            </h5>
+                <ng-container *ngFor="let data of typeProperties">
+                    <div class="modalItem">
+                        <p class="sectionName">{{data}}</p>
+                        <span class="inputSpan"><input type="text" id="id_{{data}}"></span>
+                    </div>
+              </ng-container>
+          </div>
+          <h5 class="propertyLabel">
+            Connection <span class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" [title]="toolTipText"></span>
+        </h5>
+          <div class="relationScope">
+            <div class="modalItem">
+              <p class="sectionName">From</p>
+              <span class="inputSpan">
+                <sui-multi-select [(ngModel)]="selectedNodeNameSource" [options]="fromNames" [maxSelected]="1" #NodeFromName>
+                  <div class="ui icon search input">
+                      <i class="search icon"></i>
+                      <input suiSelectSearch type="text" placeholder="Search Node...">
+                  </div>
+                  <div class="scrolling menu">
+                      <sui-select-option *ngFor="let o of NodeFromName.filteredOptions" [value]="o">
+
+                      </sui-select-option>
+
+                  </div>
+              </sui-multi-select>
+              </span>
+          </div>
+          <div class="modalItem">
+            <p class="sectionName">To</p>
+            <span class="inputSpan">
+              <sui-multi-select [(ngModel)]="selectedNodeNameTarget" [options]="toNames" [maxSelected]="1" #NodeToName>
+                <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input suiSelectSearch type="text" placeholder="Search Node...">
+                </div>
+                <div class="scrolling menu">
+                    <sui-select-option *ngFor="let o of NodeToName.filteredOptions" [value]="o">
+
+                    </sui-select-option>
+
+                </div>
+            </sui-multi-select>
+            </span>
+        </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="color: red;">Cancel</button>
+          <button type="button" class="btn btn-primary create" (click)="submitRelModal()">Create</button>
+        </div>
+      </div>
+    </div>
+</div>
+  <!--modal relationship end-->

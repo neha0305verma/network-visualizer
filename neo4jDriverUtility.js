@@ -671,6 +671,19 @@ function createNewNodeQuery(data) {
 
 }
 
+function createNewRelationQuery(data) {
+    let source = data.from; 
+    let target = data.to;
+    let relationType = data.type[0];
+    let subQuery = addProperties(data.properties);
+    let query = `MATCH (source),(target)
+    WHERE source.Name = "${source}" AND target.Name = "${target}"
+    MERGE (source)-[r:\`${relationType}\` ${subQuery}]->(target)
+    RETURN source,target,r`;
+    console.log('\nfinal query is ', query + '\n');
+    return query;
+}
+
 var createNode = (request) => {
     // the task is to create a query basis the information provided
     let data = request.body;
@@ -692,6 +705,46 @@ var createNode = (request) => {
     }
 };
 
+var createRelation = (request) => {
+     // the task is to create a query basis the information provided
+     let data = request.body;
+
+     if(!data.hasOwnProperty('type')) {
+         console.log('API : node/create | ERROR encountered while reading data for creating a relation -> type key missing');
+         return Promise.reject({error : 'Cannot create a relation without a type'});
+     } else {
+         if (!data.hasOwnProperty('from') || !data.hasOwnProperty('to')) {
+            console.log('API : node/create | ERROR encountered while reading data for creating a relation -> either of "to"  or "from" key missing');
+            return Promise.reject({error : 'Cannot create a relation without a source or target node'});
+         } else {
+             // data has all three, now proceed
+             // a type is present, can go further
+        let query = createNewRelationQuery(data);
+        return runQuery(query).then(response => {
+            let serializedData = serializer.Neo4JtoVisFormat(JSON.stringify(response.records));
+            return Promise.resolve(serializedData);
+            })
+            .catch(err => {
+                console.log('\nAn error occured while runnning the query for create node', err);
+                return Promise.reject('API : node/create | ERROR : Error encountered while reading from database');
+            });
+         }
+     }
+}
+
+var getRelations = () => {
+    let query = `match ()-[r]-() with type(r) as relation_types,keys(r) 
+      as relation_properties return distinct relation_types, relation_properties`;
+      return runQuery(query).then(response => {
+        // convert into neovis format and return
+        let serializedData = serializer.processRelations(JSON.stringify(response.records));
+            return Promise.resolve(serializedData);
+      }).catch(err => {
+        console.log('\nAn error occured while runnning the query for get relations', err);
+        return Promise.reject('API : graph/relations | ERROR : Error encountered while reading from database');
+      });
+}
+
 module.exports = {
     initiate,
     getData,
@@ -702,5 +755,7 @@ module.exports = {
     getDataV2,
     getGraphLabelData,
     getGraphLabels,
-    createNode
+    createNode,
+    getRelations,
+    createRelation
 }

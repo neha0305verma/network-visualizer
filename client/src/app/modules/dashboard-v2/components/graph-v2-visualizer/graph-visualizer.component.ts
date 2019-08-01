@@ -261,7 +261,36 @@ export class GraphVisualizerComponent implements OnInit {
 
   edgeEventCapture(event) {
     if (Object.keys(event).length > 0) {
-      console.log('recieved an event ', event);
+      if (event.action === 'create') {
+        // handle the functionaluty of creating a node
+        let newRelationData = {
+          type: [event.data.type],
+          properties: event.data.properties,
+          from: event.data.from[0],
+          to: event.data.to[0]
+        };
+        // make a request to create a node, if it succeedes only then show in the graph
+        this.graphService.createNewRelation(newRelationData).subscribe(response => {
+          console.log(response);
+
+          try {
+            let visRelation = response['seperateEdges'][0]
+            // add the new node to the vis
+            this.graphData['edges'].add([visRelation]);
+          } catch (addErr) {
+            console.log('Error while adding the data relation to vis ', addErr['message']);
+          }
+        }, error => {
+          console.log('error while reading new relation data from service ', error);
+        });
+      } else if (event.action === 'edit') {
+        // handle the functionality of editing the node
+      } else if (event.action === 'delete') {
+        // handle the functionality of deleting the node
+      } else {
+        // invalid click event
+        console.error('An invalid click event retrieved ', event);
+      }
     }
   }
 

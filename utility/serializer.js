@@ -137,7 +137,33 @@ function processEdges(edgeArray) {
     }
 }
 
+var processRelations = (relations) => {
+    if (!!relations.length) {
+        try {
+            let data = JSON.parse(relations);
+
+            // data is ready now process it
+            let extractedData = [];
+            data.forEach(record => {
+                if (record.hasOwnProperty('_fields')) {
+                    extractedData.push({type : record._fields[0], properties : record._fields[1]});
+                }
+            });
+            return extractedData;
+        }
+        catch (e) {
+            // Error occured while parsing the data
+            console.error('Error occured while parsing the relations data in processRelations() ->', e);
+        }
+    }
+    else {
+        // the relations string is empty
+        console.error('Cannot parse an empty string ---> error in processRelations()');
+    }
+}
+
 
 module.exports = {
-    Neo4JtoVisFormat
+    Neo4JtoVisFormat,
+    processRelations
 }

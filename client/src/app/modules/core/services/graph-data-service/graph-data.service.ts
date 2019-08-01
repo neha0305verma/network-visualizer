@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of, pipe, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PublicHttpService } from '../public/public-http/public-http.service';
 import { HttpHeaders } from '@angular/common/http';
 
 import {throwError} from 'rxjs';
+import * as _ from 'lodash';
 
 // import {PublicHttpService} from '@network-visualizer-core/public-http/PublicHttpService';
 
@@ -311,5 +312,43 @@ export class GraphDataService {
     } else {
       return throwError('Invalid data provided');
     }
+  }
+
+  createNewRelation(relationData) {
+    const url = '/api/graph/relation/create';
+    if (relationData.hasOwnProperty('type') &&  relationData.hasOwnProperty('to') && relationData.hasOwnProperty('from') ) {
+      // data is okay now prepare to send
+      return this.publicHttp.post(url, relationData).pipe(map(data => {
+        if (!!data) {
+          return data;
+        } else {
+          return {response: 'empty'};
+      }
+      }));
+    }
+    else {
+      return throwError('Invalid data provided');
+    }
+  }
+
+  getGraphRelations(): Observable<any> {
+    const url = '/api/graph/relations';
+    return this.publicHttp.get(url).pipe(map (data => {
+      return data;
+    }));
+  }
+
+  getNodeNames() {
+    return this.getInitialData().pipe(map(data => {
+      let nodeNames = [];
+      if (data.hasOwnProperty('seperateNodes')) {
+        let newData = _.cloneDeep(data['seperateNodes']);
+        newData.forEach(element => {
+          nodeNames.push(element['label']);
+          return element['label'];
+        });
+      }
+      return nodeNames;
+    }));
   }
 }
