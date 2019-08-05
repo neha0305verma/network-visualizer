@@ -10,15 +10,17 @@
 var map = {
 	"./modules/dashboard-d3/dashboard-d3.module": [
 		"./src/app/modules/dashboard-d3/dashboard-d3.module.ts",
-		"default~modules-dashboard-d3-dashboard-d3-module~modules-dashboard-v2-dashboard-v2-module",
+		"common",
 		"modules-dashboard-d3-dashboard-d3-module"
 	],
 	"./modules/dashboard-v2/dashboard-v2.module": [
 		"./src/app/modules/dashboard-v2/dashboard-v2.module.ts",
-		"default~modules-dashboard-d3-dashboard-d3-module~modules-dashboard-v2-dashboard-v2-module"
+		"common",
+		"modules-dashboard-v2-dashboard-v2-module"
 	],
 	"./modules/dashboard/dashboard.module": [
 		"./src/app/modules/dashboard/dashboard.module.ts",
+		"common",
 		"modules-dashboard-dashboard-module"
 	]
 };
@@ -432,6 +434,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var _public_public_http_public_http_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../public/public-http/public-http.service */ "./src/app/modules/core/services/public/public-http/public-http.service.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -742,6 +747,42 @@ var GraphDataService = /** @class */ (function () {
         else {
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])('Invalid data provided');
         }
+    };
+    GraphDataService.prototype.createNewRelation = function (relationData) {
+        var url = '/api/graph/relation/create';
+        if (relationData.hasOwnProperty('type') && relationData.hasOwnProperty('to') && relationData.hasOwnProperty('from')) {
+            // data is okay now prepare to send
+            return this.publicHttp.post(url, relationData).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+                if (!!data) {
+                    return data;
+                }
+                else {
+                    return { response: 'empty' };
+                }
+            }));
+        }
+        else {
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])('Invalid data provided');
+        }
+    };
+    GraphDataService.prototype.getGraphRelations = function () {
+        var url = '/api/graph/relations';
+        return this.publicHttp.get(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            return data;
+        }));
+    };
+    GraphDataService.prototype.getNodeNames = function () {
+        return this.getInitialData().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            var nodeNames = [];
+            if (data.hasOwnProperty('seperateNodes')) {
+                var newData = lodash__WEBPACK_IMPORTED_MODULE_5__["cloneDeep"](data['seperateNodes']);
+                newData.forEach(function (element) {
+                    nodeNames.push(element['label']);
+                    return element['label'];
+                });
+            }
+            return nodeNames;
+        }));
     };
     GraphDataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

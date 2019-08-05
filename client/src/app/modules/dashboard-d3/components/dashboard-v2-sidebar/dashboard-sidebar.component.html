@@ -1,0 +1,167 @@
+<div class="wrapper sidebar-wrapper">
+    <div class="sidebarBody p-0">
+        <div class="sidebarBodyTitle">
+            <p>Filter By Attributes</p>
+        </div>
+        <div class="sidebarElements">
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Name');rotateObj.Name.rotate = !rotateObj.Name.rotate" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
+                    [ngClass]="{'rotate': rotateObj?.Name.rotate, 'no-rotate': !rotateObj?.Name.rotate}">Names<span class="ele-count count-org">{{nameOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" (click)="rotateObj.Name.rotate = !rotateObj.Name.rotate" [ngClass]="{'rotate': rotateObj?.Name.rotate, 'no-rotate': !rotateObj?.Name.rotate}"></span>
+                <div class="collapse" id="collapseExample">
+                    <sui-multi-select [(ngModel)]="selectedName" [options]="nameOptions" [maxSelected]="15" (ngModelChange)="searchElement()" #names>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Name...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of names.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Type');rotateObj.Type.rotate = !rotateObj.Type.rotate" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"
+                    [ngClass]="{'rotate': rotateObj?.Type.rotate, 'no-rotate': !rotateObj?.Type.rotate}">Type<span class="ele-count count-department">{{typeOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2" (click)="rotateObj.Type.rotate = !rotateObj.Type.rotate" [ngClass]="{'rotate': rotateObj?.Type.rotate, 'no-rotate': !rotateObj?.Type.rotate}"></span>
+                <div class="collapse" id="collapseExample2">
+                    <sui-multi-select [(ngModel)]="selectedType" [options]="typeOptions" [maxSelected]="15" #type>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Type...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of type.filteredOptions" [value]="o">
+
+                            </sui-select-option>
+
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Represent');rotateObj.Represent.rotate = !rotateObj.Represent.rotate" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false"
+                    aria-controls="collapseExample3" [ngClass]="{'rotate': rotateObj?.Represent.rotate, 'no-rotate': !rotateObj?.Represent.rotate}">Represent<span class="ele-count count-person">{{representOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample3" (click)="rotateObj.Represent.rotate = !rotateObj.Represent.rotate" [ngClass]="{'rotate': rotateObj?.Represent.rotate, 'no-rotate': !rotateObj?.Represent.rotate}"></span>
+                <div class="collapse" id="collapseExample3">
+                    <sui-multi-select [(ngModel)]="selectedRepresent" [options]="representOptions" [maxSelected]="15" #represent>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Represent...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of represent.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Connection');rotateObj.Connection.rotate = !rotateObj.Connection.rotate" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
+                    aria-controls="collapseExample4" [ngClass]="{'rotate': rotateObj?.Connection.rotate, 'no-rotate': !rotateObj?.Connection.rotate}">Connection<span class="ele-count count-person">{{connectionOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample4" (click)="rotateObj.Connection.rotate = !rotateObj.Connection.rotate" [ngClass]="{'rotate': rotateObj?.Connection.rotate, 'no-rotate': !rotateObj?.Connection.rotate}"></span>
+                <div class="collapse" id="collapseExample4">
+                    <sui-multi-select [(ngModel)]="selectedConnection" [options]="connectionOptions" [maxSelected]="15" #connection>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Connection...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of connection.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Status');rotateObj.Status.rotate = !rotateObj.Status.rotate" data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"
+                    [ngClass]="{'rotate': rotateObj?.Status.rotate, 'no-rotate': !rotateObj?.Status.rotate}">Status<span class="ele-count count-person">{{statusOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5" (click)="rotateObj.Status.rotate = !rotateObj.Status.rotate" [ngClass]="{'rotate': rotateObj?.Status.rotate, 'no-rotate': !rotateObj?.Status.rotate}"></span>
+                <div class="collapse" id="collapseExample5">
+                    <sui-multi-select [(ngModel)]="selectedStatus" [options]="statusOptions" [maxSelected]="15" #status>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Status...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of status.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Understanding');rotateObj.Understanding.rotate = !rotateObj.Understanding.rotate" data-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false"
+                    aria-controls="collapseExample6" [ngClass]="{'rotate': rotateObj?.Understanding.rotate, 'no-rotate': !rotateObj?.Understanding.rotate}">SP Thinking<span class="ele-count count-person">{{understandingOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample6" role="button" aria-expanded="false" aria-controls="collapseExample6" (click)="rotateObj.Understanding.rotate = !rotateObj.Understanding.rotate" [ngClass]="{'rotate': rotateObj?.Understanding.rotate, 'no-rotate': !rotateObj?.Understanding.rotate}"></span>
+                <div class="collapse" id="collapseExample6">
+                    <sui-multi-select [(ngModel)]="selectedUnderstanding" [options]="understandingOptions" [maxSelected]="15" #understanding>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Understanding...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of understanding.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+            <div class="item">
+                <span class=""></span><a class="item-text hoverable" (click)="networkElementClick('Url');rotateObj.Url.rotate = !rotateObj.Url.rotate" data-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="false" aria-controls="collapseExample7"
+                    [ngClass]="{'rotate': rotateObj?.Url.rotate, 'no-rotate': !rotateObj?.Url.rotate}">Url<span class="ele-count count-person">{{urlOptions.length}}</span></a>
+                <span class="fas fa-chevron-right" data-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="false" aria-controls="collapseExample7" (click)="rotateObj.Url.rotate = !rotateObj.Url.rotate" [ngClass]="{'rotate': rotateObj?.Url.rotate, 'no-rotate': !rotateObj?.Url.rotate}"></span>
+                <div class="collapse" id="collapseExample7">
+                    <sui-multi-select [(ngModel)]="selectedUrl" [options]="urlOptions" [maxSelected]="15" #url>
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search Url...">
+                        </div>
+                        <div class="scrolling menu">
+                            <sui-select-option *ngFor="let o of url.filteredOptions" [value]="o"></sui-select-option>
+                        </div>
+                    </sui-multi-select>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container d-flex justify-content-around">
+            <div class="searchBtnWrapper btn-sidebar">
+                <button class="btn btn-default btn-md searchBtn" (click)="resetGraph()">Reset</button>
+            </div>
+            <div class="searchBtnWrapper btn-sidebar">
+                <button class="btn btn-default btn-md searchBtn" (click)="searchGraph()">Apply</button>
+            </div>
+
+        </div>
+        <div class="sidebarBodyTitle">
+            <p>Filter By Relationships</p>
+        </div>
+        <div class="sidebarElements">
+            <div class="item">
+                <sui-multi-select [(ngModel)]="selectedRelation" [options]="relationOptions" [maxSelected]="5" #relation>
+                    <div class="ui icon search input">
+                        <i class="search icon"></i>
+                        <input suiSelectSearch type="text" placeholder="Search Relationships...">
+                    </div>
+                    <div class="scrolling menu">
+                        <sui-select-option *ngFor="let o of relation.filteredOptions" [value]="o"></sui-select-option>
+                    </div>
+                </sui-multi-select>
+                <!-- <div class="rel-tabs-container" *ngFor="let r of relationOptions">
+                    <div class="rel-tab" (click)="relationclickEvent(r)" id={{r}}>
+                        <p>{{r}}</p>
+                    </div>
+                </div> -->
+                <div class="btn-container d-flex justify-content-around">
+                    <div class="searchBtnWrapper btn-sidebar">
+                        <button class="btn btn-default btn-md searchBtn" (click)="resetGraph()">Reset</button>
+                    </div>
+                    <div class="searchBtnWrapper btn-sidebar">
+                        <button class="btn btn-default btn-md searchBtn" (click)="relationSearchGraph()">Apply</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- <div class="searchBtnWrapper btn-sidebar">
+            <button class="btn btn-default btn-md searchBtn" (click)="noderelationSearchGraph()">Apply Both</button>
+        </div> -->
+    </div>
+
+</div>

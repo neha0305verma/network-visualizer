@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #5f5f5f;
+}
+
+.sidebar-wrapper {
+    position: absolute;
+    top: 13%;
+    left: 0;
+    // width: 23%;
+    // height: 100vh;
+    overflow-y: auto;
+    z-index: 1;
+    width: 20%;
+    height: 87vh;
+    background: #fff;
+}
+
+.logo {
+    text-align: center;
+    // padding-top: 10px;
+}
+
+.logo {
+    img {
+        // width: 70%;
+        cursor: pointer;
+    }
+}
+
+.sidebarBodyTitle {
+    font-family: 'Kanit', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    p {
+        // display: inline;
+        padding: 0 10px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        background: transparent;
+        color: #5f5f5f;
+        font-weight: bold;
+        // box-shadow: 2px 7px 18px 1px rgba(95, 95, 95, 0.76);
+        border-radius: 5px;
+        transition: 1s;
+        text-align: left;
+    }
+}
+
+.sidebarElements {
+    width: 100%;
+    padding: 25px 0;
+}
+
+.item {
+    font-size: 16px;
+    width: 100%;
+    padding: 0;
+    // padding-left: 30px;
+    span {
+        margin-right: 20px;
+    }
+}
+
+.hoverable:hover {
+    font-size: 18px;
+    transition: 0.5s;
+}
+
+.item,
+.item span {
+    min-height: 50px;
+    line-height: 2.7;
+}
+
+.item-text {
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+}
+
+.fa-chevron-right {
+    float: right;
+    cursor: pointer;
+}
+
+.rotate {
+    transform: rotate(90deg);
+    transition: .8s;
+}
+
+.no-rotate {
+    transform: rotate(0deg);
+    transition: .8s;
+}
+
+.click-pink {
+    color: pink;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.ui.teal.left.pointing.label {
+    background: #5f5f5f !important;
+}
+
+.searchBtnWrapper {
+    font-family: 'Kanit', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 20px;
+    bottom: 0;
+    width: 100%;
+    // margin-right: 20px;
+    button {
+        background: #e4e4e4;
+        color: #000;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+    button:active {
+        box-shadow: none;
+        transition: 0.5s;
+    }
+}
+
+.btn-sidebar {
+    display: inline;
+}
+
+.btn-container {
+    margin-bottom: 25px;
+}
+
+.rel-tabs-container {
+    display: inline-block;
+}
+
+.rel-tab p {
+    word-break: break-all;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #F5F5F5;
+    color: rgb(48, 51, 58);
+    margin: 4px;
+    padding: 3px 7px;
+    border-radius: 3px;
+}
+
+.ele-count {
+    // background-color: #F5F5F5;
+    border-radius: 50%;
+    padding: 8px;
+    margin-left: 10px;
+    text-align: center;
+    display: inline;
+}
+
+.wrapper hr {
+    margin-bottom: 2em;
+    margin-top: 0.15em;
+}
+
+.rel-tabs-container .selected {
+    -webkit-box-shadow: -4px 4px 17px -8px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -4px 4px 17px -8px rgba(0, 0, 0, 0.75);
+    box-shadow: -4px 4px 17px -8px rgba(0, 0, 0, 0.75);
+}
+
+.count-org {
+    background-color: #F5F5F5;
+}
+
+.count-person {
+    background-color: #F5F5F5;
+}
+
+.count-department {
+    background-color: #F5F5F5;
+}
+
+span.ele-count.count-org {
+    padding: 9px 11px 9px 11px;
+}
+
+.c_ff4444 {
+    background-color: '#ff4444'
+}
+
+.c_ffbb33 {
+    background-color: '#ffbb33'
+}
+
+.c_00C851 {
+    background-color: '#00C851'
+}
+
+.c_33b5e5 {
+    background-color: '#33b5e5'
+}
+
+.c_CC0000 {
+    background-color: '#CC0000'
+}
+
+.c_FF8800 {
+    background-color: '#FF8800'
+}
+
+.c_007E33 {
+    background-color: '#007E33'
+}
+
+.c_0099CC {
+    background-color: '#0099CC'
+}
+
+.c_9933CC {
+    background-color: '#9933CC'
+}
+
+.c_0d47a1 {
+    background-color: '#0d47a1'
+}
+
+.c_2BBBAD {
+    background-color: '#2BBBAD'
+}
+
+.c_c51162 {
+    background-color: '#c51162'
+}
+
+// an attempt to make it a bit responsive
+@media screen and (max-width: '1100px') {
+    .sidebar-wrapper {
+        width: 25%;
+    }
+}

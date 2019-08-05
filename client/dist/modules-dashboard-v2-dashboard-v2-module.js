@@ -1,40 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~modules-dashboard-d3-dashboard-d3-module~modules-dashboard-v2-dashboard-v2-module"],{
-
-/***/ "./src/app/modules/core/services/shared-graph.service.ts":
-/*!***************************************************************!*\
-  !*** ./src/app/modules/core/services/shared-graph.service.ts ***!
-  \***************************************************************/
-/*! exports provided: SharedGraphService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SharedGraphService", function() { return SharedGraphService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-var SharedGraphService = /** @class */ (function () {
-    function SharedGraphService() {
-    }
-    SharedGraphService.prototype.setGraphData = function (graphdata) {
-        this.graphData = graphdata;
-    };
-    SharedGraphService.prototype.getGraphData = function () {
-        return this.graphData;
-    };
-    SharedGraphService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
-            providedIn: 'root'
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], SharedGraphService);
-    return SharedGraphService;
-}());
-
-
-
-/***/ }),
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["modules-dashboard-v2-dashboard-v2-module"],{
 
 /***/ "./src/app/modules/dashboard-v2/components/color-panel/color-panel/color-panel.component.html":
 /*!****************************************************************************************************!*\
@@ -132,7 +96,7 @@ var ColorPanelComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n<!--<a href=\"#\" class=\"deleteLink\"><span class=\"fas fa-plus-circle\">&nbsp;Delete Node</span></a> -->\n<div class=\"btn-group nodes\">\n    <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Node\n    </button>\n    <div class=\"dropdown-menu\">\n      <a class=\"dropdown-item create\" (click)=\"createNode()\" data-toggle=\"modal\" data-target=\"#createNodeModal\"><span class=\"fas fa-plus-circle\"></span>Create Node</a>\n      <a class=\"dropdown-item edit\" (click)=\"editNode()\"><span class=\"far fa-edit\"></span>Edit Node</a>\n      <a class=\"dropdown-item delete\" (click)=\"deleteNode()\"><span class=\"far fa-trash-alt\"></span>Delete Node</a>\n    </div>\n</div>\n<div class=\"btn-group relationships\">\n    <button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Relationships\n    </button>\n    <div class=\"dropdown-menu\">\n      <a class=\"dropdown-item create\" (click)=\"createRelation()\"><span class=\"fas fa-plus-circle\"></span>Create Relationship</a>\n      <a class=\"dropdown-item edit\" (click)=\"editRelation()\"><span class=\"far fa-edit\"></span>Edit Relationship</a>\n      <a class=\"dropdown-item delete\" (click)=\"deleteRelation()\"><span class=\"far fa-trash-alt\"></span>Delete Relationship</a>\n    </div>\n</div>\n</div>\n<!--modal template to show when node is to be created-->\n<div class=\"modal fade\" id=\"createNodeModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Node</h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n          <!-- <div class=\"modalItem\">\n            <p class=\"sectionName\">\n                Name\n            </p>\n            <span class=\"inputSpan\">\n              <input type=\"text\" id=\"nameText\">\n            </span>\n          </div> -->\n          <div class=\"modalItem\">\n            <p class=\"sectionName\">\n              Type\n            </p>\n           <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateProperties($event)\" [options]=\"typeOptions\" [maxSelected]=\"1\" #type>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of type.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n          </div>\n          <div class=\"modalItem\" *ngIf=\"labelProperties.length > 0\">\n            <h5 class=\"propertyLabel\">\n                Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n            </h5>\n                <ng-container *ngFor=\"let data of labelProperties\">\n                    <div class=\"modalItem\">\n                        <p class=\"sectionName\">{{data}}</p>\n                        <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                    </div>\n              </ng-container>\n          </div>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n          <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitModal()\">Create</button>\n        </div>\n      </div>\n    </div>\n  </div>\n  <!--modal node create end-->"
+module.exports = "<div class=\"container-fluid\">\n    <!--<a href=\"#\" class=\"deleteLink\"><span class=\"fas fa-plus-circle\">&nbsp;Delete Node</span></a> -->\n    <div class=\"btn-group nodes\">\n        <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Node\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createNode()\" data-toggle=\"modal\" data-target=\"#createNodeModal\"><span class=\"fas fa-plus-circle\"></span>Create Node</a>\n            <a class=\"dropdown-item edit\" (click)=\"editNode()\"><span class=\"far fa-edit\"></span>Edit Node</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteNode()\"><span class=\"far fa-trash-alt\"></span>Delete Node</a>\n        </div>\n    </div>\n    <div class=\"btn-group relationships\">\n        <button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Relationships\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createRelation()\" data-toggle=\"modal\" data-target=\"#createRelationModal\"><span class=\"fas fa-plus-circle\"></span>Create Relationship</a>\n            <a class=\"dropdown-item edit\" (click)=\"editRelation()\"><span class=\"far fa-edit\"></span>Edit Relationship</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteRelation()\"><span class=\"far fa-trash-alt\"></span>Delete Relationship</a>\n        </div>\n    </div>\n</div>\n<!--modal template to show when node is to be created-->\n<div class=\"modal fade\" id=\"createNodeModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"NodeModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"NodeModalLabel\">Create Node</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n            </div>\n            <div class=\"modal-body\">\n                <!-- <div class=\"modalItem\">\n            <p class=\"sectionName\">\n                Name\n            </p>\n            <span class=\"inputSpan\">\n              <input type=\"text\" id=\"nameText\">\n            </span>\n          </div> -->\n                <div class=\"modalItem\">\n                    <p class=\"sectionName\">\n                        Type\n                    </p>\n                    <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateProperties($event)\" [options]=\"typeOptions\" [maxSelected]=\"1\" #type>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of type.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n                </div>\n                <div class=\"modalItem\" *ngIf=\"labelProperties.length > 0\">\n                    <h5 class=\"propertyLabel\">\n                        Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                    </h5>\n                    <ng-container *ngFor=\"let data of labelProperties\">\n                        <div class=\"modalItem\">\n                            <p class=\"sectionName\">{{data}}</p>\n                            <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                        </div>\n                    </ng-container>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitModal()\">Create</button>\n            </div>\n        </div>\n    </div>\n</div>\n<!--modal node create end-->\n\n\n<!--modal relationship start-->\n<div class=\"modal fade\" id=\"createRelationModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"RelModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"RelModalLabel\">Create Relationship</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"modalItem\">\n                    <p class=\"sectionName\">\n                        Type\n                    </p>\n                    <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateRelProperties($event)\" [options]=\"relationTypeOptions\" [maxSelected]=\"1\" #typeRel>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of typeRel.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n                </div>\n                <div class=\"modalItem\" *ngIf=\"typeProperties.length > 0\">\n                    <h5 class=\"propertyLabel\">\n                        Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                    </h5>\n                    <ng-container *ngFor=\"let data of typeProperties\">\n                        <div class=\"modalItem\">\n                            <p class=\"sectionName\">{{data}}</p>\n                            <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                        </div>\n                    </ng-container>\n                </div>\n                <!-- <h5 class=\"propertyLabel\">\n            Connection <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n        </h5>\n          <div class=\"relationScope\">\n            <div class=\"modalItem\">\n              <p class=\"sectionName\">From</p>\n              <span class=\"inputSpan\">\n                <sui-multi-select [(ngModel)]=\"selectedNodeNameSource\" [options]=\"fromNames\" [maxSelected]=\"1\" #NodeFromName>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of NodeFromName.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n              </span>\n          </div>\n          <div class=\"modalItem\">\n            <p class=\"sectionName\">To</p>\n            <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedNodeNameTarget\" [options]=\"toNames\" [maxSelected]=\"1\" #NodeToName>\n                <div class=\"ui icon search input\">\n                    <i class=\"search icon\"></i>\n                    <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                </div>\n                <div class=\"scrolling menu\">\n                    <sui-select-option *ngFor=\"let o of NodeToName.filteredOptions\" [value]=\"o\">\n\n                    </sui-select-option>\n\n                </div>\n            </sui-multi-select>\n            </span>\n        </div>\n          </div> -->\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitRelModal()\">Create</button>\n            </div>\n        </div>\n    </div>\n</div>\n<!--modal relationship end-->"
 
 /***/ }),
 
@@ -162,13 +126,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_services_search_service_search_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../shared/services/search-service/search.service */ "./src/app/modules/shared/services/search-service/search.service.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var src_app_modules_core_services_graph_data_service_graph_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/modules/core/services/graph-data-service/graph-data.service */ "./src/app/modules/core/services/graph-data-service/graph-data.service.ts");
+
 
 
 
 
 var CreateNodesComponent = /** @class */ (function () {
-    function CreateNodesComponent(SharedSrvc) {
+    function CreateNodesComponent(SharedSrvc, graphSrvc, cdr) {
         this.SharedSrvc = SharedSrvc;
+        this.graphSrvc = graphSrvc;
+        this.cdr = cdr;
         this.nodeBtnEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.edgeBtnEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.nodeTypes = [];
@@ -176,6 +144,10 @@ var CreateNodesComponent = /** @class */ (function () {
         this.typeOptions = [];
         this.toolTipText = '';
         this.labelProperties = [];
+        this.relationTypeOptions = [];
+        this.typeProperties = [];
+        this.toNames = [];
+        this.fromNames = [];
     }
     CreateNodesComponent.prototype.ngOnInit = function () {
         this.toolTipText = 'The Properties section can be left blank to set a default Node';
@@ -204,7 +176,16 @@ var CreateNodesComponent = /** @class */ (function () {
         this.nodeBtnEvent.emit({ type: 'click', action: 'delete' });
     };
     CreateNodesComponent.prototype.createRelation = function () {
-        this.edgeBtnEvent.emit({ type: 'click', action: 'create' });
+        var _this = this;
+        this.graphSrvc.getGraphRelations().subscribe(function (response) {
+            console.log('response recieved is ', response);
+            _this.relationsData = response;
+            var extractedTypes = _this.extractTypes(response);
+            // pass it into the options for dropdown
+            _this.relationTypeOptions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](extractedTypes);
+        }, function (err) {
+            console.error('An error occured while fetching relations ', err);
+        });
     };
     CreateNodesComponent.prototype.editRelation = function () {
         this.edgeBtnEvent.emit({ type: 'click', action: 'edit' });
@@ -258,6 +239,24 @@ var CreateNodesComponent = /** @class */ (function () {
             throw new Error('Cannot create a node with no details');
         }
     };
+    CreateNodesComponent.prototype.validateRelationData = function (relationObj) {
+        if (Object.keys(relationObj).length > 0) {
+            if (relationObj.hasOwnProperty('type') && relationObj.type.length > 0) {
+                if (relationObj.hasOwnProperty('properties') && Object.keys(relationObj.properties).length > 0) {
+                    return this.cleanRelationshipData(relationObj);
+                }
+                else {
+                    // user did not specify any properties, its okay
+                }
+            }
+            else {
+                throw new Error('Cannot create a relation with no Type');
+            }
+        }
+        else {
+            throw new Error('cannot create a relation with no details');
+        }
+    };
     CreateNodesComponent.prototype.generateID = function () {
         // this function generates a new id for a the node which will be unique
         return Math.floor(Date.now() + Math.random());
@@ -298,24 +297,105 @@ var CreateNodesComponent = /** @class */ (function () {
             return [];
         }
     };
+    CreateNodesComponent.prototype.removeDirtyData = function (dataObj) {
+        var newPropertyObject = {};
+        Object.keys(dataObj.properties).forEach(function (property) {
+            if (property !== null && dataObj.properties[property] !== null) {
+                // remove the id_ prefix in the key
+                property = property.split('id_')[1];
+                newPropertyObject[property] = dataObj.properties['id_' + property];
+            }
+        });
+        return newPropertyObject;
+    };
     CreateNodesComponent.prototype.cleanNodeData = function (nodeObj) {
         var newPropertyObject = {};
         // remove any null properties
-        Object.keys(nodeObj.properties).forEach(function (property) {
-            if (property !== null && nodeObj.properties[property] !== null) {
-                // remove the id_ prefix in the key
-                property = property.split('id_')[1];
-                newPropertyObject[property] = nodeObj.properties['id_' + property];
-            }
-        });
+        newPropertyObject = this.removeDirtyData(nodeObj);
         // assign it back to the original data
-        nodeObj.properties = newPropertyObject;
+        nodeObj.properties = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](newPropertyObject);
         console.log('new properties are ', nodeObj);
         // assign a unique id to the node
         nodeObj['id'] = this.generateID();
         // get the type array removed
         nodeObj['type'] = nodeObj['type'][0];
         return nodeObj;
+    };
+    CreateNodesComponent.prototype.cleanRelationshipData = function (relation) {
+        var relationshipProperties = {};
+        // remove any null properties
+        relationshipProperties = this.removeDirtyData(relation);
+        relation.properties = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](relationshipProperties);
+        relation['type'] = relation['type'][0];
+        return relation;
+    };
+    CreateNodesComponent.prototype.extractTypes = function (ObjectArray) {
+        var typesArray = [];
+        ObjectArray.forEach(function (obj) {
+            typesArray.push(obj['type']);
+        });
+        return typesArray;
+    };
+    CreateNodesComponent.prototype.updateRelProperties = function (event) {
+        var _this = this;
+        // fetch the properties of selected type and display it in the dropdown
+        this.typeProperties = this.getRelProperties(event);
+        // trigger an api to get all the names of the nodes in the graph
+        this.graphSrvc.getNodeNames().subscribe(function (response) {
+            _this.fromNames = _this.toNames = response;
+        }, function (error) {
+            console.log(error);
+            _this.fromNames = [];
+            _this.toNames = [];
+        });
+    };
+    CreateNodesComponent.prototype.getRelProperties = function (relType) {
+        if (relType.length > 0) {
+            var fetchedProperties_2 = [];
+            this.relationsData.forEach(function (Obj) {
+                if (Obj.type === relType[0]) {
+                    fetchedProperties_2 = Obj['properties'];
+                }
+            });
+            return fetchedProperties_2;
+        }
+        else {
+            return [];
+        }
+    };
+    CreateNodesComponent.prototype.submitRelModal = function () {
+        var nodeData = {
+            Name: null
+        };
+        var relationData = {
+            type: null,
+            properties: {}
+        };
+        var sourceNode = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](nodeData);
+        var targetNode = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](nodeData);
+        relationData.type = this.selectedType;
+        sourceNode.Name = this.selectedNodeNameSource;
+        targetNode.Name = this.selectedNodeNameTarget;
+        // extract properties from modal if entered
+        $('#createRelationModal :text').each(function () {
+            var key = $(this).attr('id') || null;
+            var value = $(this).val() || null;
+            relationData.properties[key] = value;
+        });
+        console.log(relationData);
+        try {
+            relationData = this.validateRelationData(relationData);
+            console.log('relationship created is ', relationData);
+            // add the source and target nodes of this relation
+            relationData['from'] = sourceNode.Name;
+            relationData['to'] = targetNode.Name;
+            this.edgeBtnEvent.emit({ type: 'click', action: 'create', data: relationData });
+            // hide the modal once the data is created properly
+            $('#createRelationModal').modal('hide');
+        }
+        catch (e) {
+            console.log(e);
+        }
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
@@ -335,7 +415,7 @@ var CreateNodesComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./create-nodes.component.html */ "./src/app/modules/dashboard-v2/components/create-nodes/create-nodes.component.html"),
             styles: [__webpack_require__(/*! ./create-nodes.component.scss */ "./src/app/modules/dashboard-v2/components/create-nodes/create-nodes.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_services_search_service_search_service__WEBPACK_IMPORTED_MODULE_2__["SearchService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_services_search_service_search_service__WEBPACK_IMPORTED_MODULE_2__["SearchService"], src_app_modules_core_services_graph_data_service_graph_data_service__WEBPACK_IMPORTED_MODULE_4__["GraphDataService"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"]])
     ], CreateNodesComponent);
     return CreateNodesComponent;
 }());
@@ -834,7 +914,7 @@ module.exports = "<app-global-loader *ngIf=\"loader\"></app-global-loader>\n<app
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".graph-container {\n  background: #F5F5F5;\n  height: 81vh;\n  width: 80%;\n  float: right; }\n\n.selected-count {\n  background: #F5F5F5;\n  word-break: break-all;\n  cursor: pointer;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #30333a;\n  border-radius: 3px;\n  padding: 1em;\n  float: left; }\n\n.wrapper-countlimit {\n  width: 80%;\n  float: right; }\n\n.nodeLimit {\n  max-width: 200px;\n  top: 50px;\n  float: left;\n  border-radius: 3px;\n  padding: 1em;\n  background: #F5F5F5;\n  outline: none; }\n\n.creationToolbar {\n  top: 50px;\n  float: left;\n  padding: 1em;\n  outline: none; }\n\n.nodeLimit input {\n  width: 35%;\n  border: 0.3px solid #000;\n  padding: 5px;\n  border-radius: 2px; }\n\n.nodeLimit:focus {\n  outline: none; }\n\n.nodelimit-head {\n  display: inline;\n  margin-right: 3px; }\n\n@media screen and (max-width: 1100px) {\n  .graph-container,\n  .selected-count {\n    width: 75%; } }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL25laGEvTmVoYVZlcm1hL1N1bmJpcmQvUHJvamVjdHMvTmV0d29yay1WaXN1YWxpemVyL25ldHdvcmstdmlzdWFsaXplci9jbGllbnQvc3JjL2FwcC9tb2R1bGVzL2Rhc2hib2FyZC12Mi9jb21wb25lbnRzL2dyYXBoLXYyLXZpc3VhbGl6ZXIvZ3JhcGgtdmlzdWFsaXplci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLG1CQUFtQjtFQUNuQixZQUFZO0VBQ1osVUFBVTtFQUNWLFlBQVksRUFBQTs7QUFHaEI7RUFDSSxtQkFBbUI7RUFDbkIscUJBQXFCO0VBQ3JCLGVBQWU7RUFDZiwyREFBMkQ7RUFDM0QsZUFBZTtFQUNmLGNBQWM7RUFDZCxrQkFBa0I7RUFDbEIsWUFBWTtFQUNaLFdBQVcsRUFBQTs7QUFHZjtFQUNJLFVBQVU7RUFDVixZQUFZLEVBQUE7O0FBR2hCO0VBQ0ksZ0JBQWlCO0VBQ2pCLFNBQVM7RUFDVCxXQUFXO0VBQ1gsa0JBQWtCO0VBQ2xCLFlBQVk7RUFDWixtQkFBbUI7RUFDbkIsYUFBYSxFQUFBOztBQUdqQjtFQUNJLFNBQVU7RUFDVixXQUFXO0VBQ1gsWUFBYTtFQUNiLGFBQWMsRUFBQTs7QUFHbEI7RUFDSSxVQUFVO0VBQ1Ysd0JBQXdCO0VBQ3hCLFlBQVk7RUFDWixrQkFBa0IsRUFBQTs7QUFHdEI7RUFDSSxhQUFhLEVBQUE7O0FBR2pCO0VBQ0ksZUFBZTtFQUNmLGlCQUFpQixFQUFBOztBQUdyQjtFQUNJOztJQUVJLFVBQVUsRUFBQSxFQUNiIiwiZmlsZSI6InNyYy9hcHAvbW9kdWxlcy9kYXNoYm9hcmQtdjIvY29tcG9uZW50cy9ncmFwaC12Mi12aXN1YWxpemVyL2dyYXBoLXZpc3VhbGl6ZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZ3JhcGgtY29udGFpbmVyIHtcbiAgICBiYWNrZ3JvdW5kOiAjRjVGNUY1O1xuICAgIGhlaWdodDogODF2aDtcbiAgICB3aWR0aDogODAlO1xuICAgIGZsb2F0OiByaWdodDtcbn1cblxuLnNlbGVjdGVkLWNvdW50IHtcbiAgICBiYWNrZ3JvdW5kOiAjRjVGNUY1O1xuICAgIHdvcmQtYnJlYWs6IGJyZWFrLWFsbDtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgZm9udC1mYW1pbHk6IFwiSGVsdmV0aWNhIE5ldWVcIiwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gICAgY29sb3I6ICMzMDMzM2E7XG4gICAgYm9yZGVyLXJhZGl1czogM3B4O1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBmbG9hdDogbGVmdDtcbn1cblxuLndyYXBwZXItY291bnRsaW1pdCB7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBmbG9hdDogcmlnaHQ7XG59XG5cbi5ub2RlTGltaXQge1xuICAgIG1heC13aWR0aCA6IDIwMHB4O1xuICAgIHRvcDogNTBweDtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIGJhY2tncm91bmQ6ICNGNUY1RjU7XG4gICAgb3V0bGluZTogbm9uZTtcbn1cblxuLmNyZWF0aW9uVG9vbGJhciB7XG4gICAgdG9wIDogNTBweDtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBwYWRkaW5nIDogMWVtO1xuICAgIG91dGxpbmUgOiBub25lO1xufVxuXG4ubm9kZUxpbWl0IGlucHV0IHtcbiAgICB3aWR0aDogMzUlO1xuICAgIGJvcmRlcjogMC4zcHggc29saWQgIzAwMDtcbiAgICBwYWRkaW5nOiA1cHg7XG4gICAgYm9yZGVyLXJhZGl1czogMnB4O1xufVxuXG4ubm9kZUxpbWl0OmZvY3VzIHtcbiAgICBvdXRsaW5lOiBub25lO1xufVxuXG4ubm9kZWxpbWl0LWhlYWQge1xuICAgIGRpc3BsYXk6IGlubGluZTtcbiAgICBtYXJnaW4tcmlnaHQ6IDNweDtcbn1cblxuQG1lZGlhIHNjcmVlbiBhbmQgKG1heC13aWR0aDogJzExMDBweCcpIHtcbiAgICAuZ3JhcGgtY29udGFpbmVyLFxuICAgIC5zZWxlY3RlZC1jb3VudCB7XG4gICAgICAgIHdpZHRoOiA3NSU7XG4gICAgfVxufSJdfQ== */"
+module.exports = ".graph-container {\n  background: #F5F5F5;\n  height: 81vh;\n  width: 80%;\n  float: right; }\n\n.selected-count {\n  background: #F5F5F5;\n  word-break: break-all;\n  cursor: pointer;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #30333a;\n  border-radius: 3px;\n  padding: 1em;\n  float: left; }\n\n.wrapper-countlimit {\n  width: 80%;\n  float: right; }\n\n.nodeLimit {\n  max-width: 200px;\n  top: 50px;\n  float: left;\n  border-radius: 3px;\n  padding: 1em;\n  background: #F5F5F5;\n  outline: none; }\n\n.creationToolbar {\n  top: 50px;\n  float: left;\n  padding: 1em;\n  outline: none; }\n\n.nodeLimit input {\n  width: 35%;\n  border: 0.3px solid #000;\n  padding: 5px;\n  border-radius: 2px; }\n\n.nodeLimit:focus {\n  outline: none; }\n\n.nodelimit-head {\n  display: inline;\n  margin-right: 3px; }\n\n@media screen and (max-width: 1100px) {\n  .graph-container,\n  .selected-count {\n    width: 75%; } }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL25laGEvTmVoYVZlcm1hL1N1bmJpcmQvUHJvamVjdHMvTmV0d29yay1WaXN1YWxpemVyL25ldHdvcmstdmlzdWFsaXplci9jbGllbnQvc3JjL2FwcC9tb2R1bGVzL2Rhc2hib2FyZC12Mi9jb21wb25lbnRzL2dyYXBoLXYyLXZpc3VhbGl6ZXIvZ3JhcGgtdmlzdWFsaXplci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLG1CQUFtQjtFQUNuQixZQUFZO0VBQ1osVUFBVTtFQUNWLFlBQVksRUFBQTs7QUFHaEI7RUFDSSxtQkFBbUI7RUFDbkIscUJBQXFCO0VBQ3JCLGVBQWU7RUFDZiwyREFBMkQ7RUFDM0QsZUFBZTtFQUNmLGNBQWM7RUFDZCxrQkFBa0I7RUFDbEIsWUFBWTtFQUNaLFdBQVcsRUFBQTs7QUFHZjtFQUNJLFVBQVU7RUFDVixZQUFZLEVBQUE7O0FBR2hCO0VBQ0ksZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxXQUFXO0VBQ1gsa0JBQWtCO0VBQ2xCLFlBQVk7RUFDWixtQkFBbUI7RUFDbkIsYUFBYSxFQUFBOztBQUdqQjtFQUNJLFNBQVM7RUFDVCxXQUFXO0VBQ1gsWUFBWTtFQUNaLGFBQWEsRUFBQTs7QUFHakI7RUFDSSxVQUFVO0VBQ1Ysd0JBQXdCO0VBQ3hCLFlBQVk7RUFDWixrQkFBa0IsRUFBQTs7QUFHdEI7RUFDSSxhQUFhLEVBQUE7O0FBR2pCO0VBQ0ksZUFBZTtFQUNmLGlCQUFpQixFQUFBOztBQUdyQjtFQUNJOztJQUVJLFVBQVUsRUFBQSxFQUNiIiwiZmlsZSI6InNyYy9hcHAvbW9kdWxlcy9kYXNoYm9hcmQtdjIvY29tcG9uZW50cy9ncmFwaC12Mi12aXN1YWxpemVyL2dyYXBoLXZpc3VhbGl6ZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZ3JhcGgtY29udGFpbmVyIHtcbiAgICBiYWNrZ3JvdW5kOiAjRjVGNUY1O1xuICAgIGhlaWdodDogODF2aDtcbiAgICB3aWR0aDogODAlO1xuICAgIGZsb2F0OiByaWdodDtcbn1cblxuLnNlbGVjdGVkLWNvdW50IHtcbiAgICBiYWNrZ3JvdW5kOiAjRjVGNUY1O1xuICAgIHdvcmQtYnJlYWs6IGJyZWFrLWFsbDtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgZm9udC1mYW1pbHk6IFwiSGVsdmV0aWNhIE5ldWVcIiwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gICAgY29sb3I6ICMzMDMzM2E7XG4gICAgYm9yZGVyLXJhZGl1czogM3B4O1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBmbG9hdDogbGVmdDtcbn1cblxuLndyYXBwZXItY291bnRsaW1pdCB7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBmbG9hdDogcmlnaHQ7XG59XG5cbi5ub2RlTGltaXQge1xuICAgIG1heC13aWR0aDogMjAwcHg7XG4gICAgdG9wOiA1MHB4O1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIGJvcmRlci1yYWRpdXM6IDNweDtcbiAgICBwYWRkaW5nOiAxZW07XG4gICAgYmFja2dyb3VuZDogI0Y1RjVGNTtcbiAgICBvdXRsaW5lOiBub25lO1xufVxuXG4uY3JlYXRpb25Ub29sYmFyIHtcbiAgICB0b3A6IDUwcHg7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIG91dGxpbmU6IG5vbmU7XG59XG5cbi5ub2RlTGltaXQgaW5wdXQge1xuICAgIHdpZHRoOiAzNSU7XG4gICAgYm9yZGVyOiAwLjNweCBzb2xpZCAjMDAwO1xuICAgIHBhZGRpbmc6IDVweDtcbiAgICBib3JkZXItcmFkaXVzOiAycHg7XG59XG5cbi5ub2RlTGltaXQ6Zm9jdXMge1xuICAgIG91dGxpbmU6IG5vbmU7XG59XG5cbi5ub2RlbGltaXQtaGVhZCB7XG4gICAgZGlzcGxheTogaW5saW5lO1xuICAgIG1hcmdpbi1yaWdodDogM3B4O1xufVxuXG5AbWVkaWEgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiAnMTEwMHB4Jykge1xuICAgIC5ncmFwaC1jb250YWluZXIsXG4gICAgLnNlbGVjdGVkLWNvdW50IHtcbiAgICAgICAgd2lkdGg6IDc1JTtcbiAgICB9XG59Il19 */"
 
 /***/ }),
 
@@ -1112,8 +1192,41 @@ var GraphVisualizerComponent = /** @class */ (function () {
         }
     };
     GraphVisualizerComponent.prototype.edgeEventCapture = function (event) {
+        var _this = this;
         if (Object.keys(event).length > 0) {
-            console.log('recieved an event ', event);
+            if (event.action === 'create') {
+                // handle the functionaluty of creating a node
+                var newRelationData = {
+                    type: [event.data.type],
+                    properties: event.data.properties,
+                    from: event.data.from[0],
+                    to: event.data.to[0]
+                };
+                // make a request to create a node, if it succeedes only then show in the graph
+                this.graphService.createNewRelation(newRelationData).subscribe(function (response) {
+                    console.log(response);
+                    try {
+                        var visRelation = response['seperateEdges'][0];
+                        // add the new node to the vis
+                        _this.graphData['edges'].add([visRelation]);
+                    }
+                    catch (addErr) {
+                        console.log('Error while adding the data relation to vis ', addErr['message']);
+                    }
+                }, function (error) {
+                    console.log('error while reading new relation data from service ', error);
+                });
+            }
+            else if (event.action === 'edit') {
+                // handle the functionality of editing the node
+            }
+            else if (event.action === 'delete') {
+                // handle the functionality of deleting the node
+            }
+            else {
+                // invalid click event
+                console.error('An invalid click event retrieved ', event);
+            }
         }
     };
     GraphVisualizerComponent.prototype.serializeProperties = function (propertyObject) {
@@ -1374,51 +1487,7 @@ var ColorServiceService = /** @class */ (function () {
 
 
 
-/***/ }),
-
-/***/ "./src/app/modules/shared/services/search-service/search.service.ts":
-/*!**************************************************************************!*\
-  !*** ./src/app/modules/shared/services/search-service/search.service.ts ***!
-  \**************************************************************************/
-/*! exports provided: SearchService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchService", function() { return SearchService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-
-
-
-var SearchService = /** @class */ (function () {
-    function SearchService(http) {
-        this.http = http;
-    }
-    SearchService.prototype.runQuery = function (request) {
-        var url = '/api/search/neo4j';
-        var token = 'DDCE5DBC3AA826EA295F963113B4F';
-        var httpOptions = {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json',
-                Database_Authorization: token
-            })
-        };
-        return this.http.post(url, request, httpOptions);
-    };
-    SearchService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
-            providedIn: 'root'
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
-    ], SearchService);
-    return SearchService;
-}());
-
-
-
 /***/ })
 
 }]);
-//# sourceMappingURL=default~modules-dashboard-d3-dashboard-d3-module~modules-dashboard-v2-dashboard-v2-module.js.map
+//# sourceMappingURL=modules-dashboard-v2-dashboard-v2-module.js.map

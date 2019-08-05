@@ -4,16 +4,24 @@ import { GraphD3VisualizerComponent } from './components/graph-d3-visualizer/gra
 import { MainD3Component } from './components/main-d3/main-d3.component';
 import { DashboardD3RoutingModule } from './dashboard-d3-routing.module';
 import { CoreModule } from '../core/core.module';
-import { DashboardModule } from '../dashboard-v2/dashboard-v2.module';
+import { DashboardSidebarComponent } from './components/dashboard-v2-sidebar/dashboard-sidebar.component';
+import { DashboardHeaderComponent } from './components/dashboard-v2-header/dashboard-header.component';
+import { ColorPanelComponent } from './components/color-panel/color-panel/color-panel.component';
+import { CreateNodesComponent } from './components/create-nodes/create-nodes.component';
+import { FormsModule } from '@angular/forms';
+import { SuiSelectModule, SuiModule } from 'ng2-semantic-ui';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [GraphD3VisualizerComponent, MainD3Component],
+  declarations: [GraphD3VisualizerComponent, MainD3Component,DashboardSidebarComponent, DashboardHeaderComponent, 
+    ColorPanelComponent, CreateNodesComponent],
   imports: [
     CommonModule,
+    FormsModule,
     DashboardD3RoutingModule,
     CoreModule,
-    DashboardModule
-
-  ]
+    SuiSelectModule, SuiModule,
+    SharedModule
+   ]
 })
 export class DashboardD3Module { }

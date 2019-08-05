@@ -1,1 +1,3 @@
+<app-dashboard-header></app-dashboard-header>
+<app-dashboard-sidebar (eventClicked)="childEventClicked($event)" (nodeTypesEvent)="sendTypes($event)"></app-dashboard-sidebar>
 <app-graph-d3-visualizer [event]="clickedEvent" [totalTypesArray]="totalTypesArray"></app-graph-d3-visualizer>

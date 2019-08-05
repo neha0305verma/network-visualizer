@@ -1,7 +1,24 @@
-<div class="creationToolbar">
-    <app-create-nodes [nodeTypes]="totalTypesArray" (nodeBtnEvent)="nodeEventCapture($event)" (edgeBtnEvent)="edgeEventCapture($event)"></app-create-nodes>
+<app-global-loader *ngIf="loader"></app-global-loader>
+<app-color-panel *ngIf="!loader"></app-color-panel>
+<div class="wrapper-countlimit" *ngIf="!loader">
+    <div class="selected-count">{{selectedCount}} Elements Found</div>
+    <div class="nodeLimit">
+        <p class="nodelimit-head">Element Limit :</p>
+        <input type="text" [(ngModel)]=nodeLimit (ngModelChange)="limitChange(nodeLimit, popup)" suiPopup popupText="{{errorMessage}}" popupTrigger="manual" #popup="suiPopup">
+    </div>
+    <div class="creationToolbar">
+        <app-create-nodes [edgeDragEnd]="edgeDragEndEvent" [nodeTypes]="totalTypesArray" (nodeBtnEvent)="nodeEventCapture($event)" (edgeBtnEvent)="edgeEventCapture($event)"></app-create-nodes>
+    </div>
 </div>
+<div class="graph-container" id="graphViewer">
+    <div id="canvas"></div>
+</div>
+<ng-template *ngIf="showlimiterror" let-popup #popupTemplate>
+    <div class="header">Rating</div>
+    <div class="content">
+        <sui-rating class="star" (click)="popup.close()"></sui-rating>
+    </div>
+</ng-template>
 <!-- <button class="shownoti ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
     <i class="add icon"></i>
 </button> -->
-<div id="canvas"></div>

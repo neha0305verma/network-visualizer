@@ -15,7 +15,7 @@
       Relationships
     </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item create" (click)="createRelation()" data-toggle="modal" data-target="#createRelationModal"><span class="fas fa-plus-circle"></span>Create Relationship</a>
+            <a class="dropdown-item create" (click)="createRelationEventEmit()"><span class="fas fa-plus-circle"></span>Create Relationship</a>
             <a class="dropdown-item edit" (click)="editRelation()"><span class="far fa-edit"></span>Edit Relationship</a>
             <a class="dropdown-item delete" (click)="deleteRelation()"><span class="far fa-trash-alt"></span>Delete Relationship</a>
         </div>
@@ -27,7 +27,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="NodeModalLabel">Create Node</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" (click)="cancelNodeModal()" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
             </div>
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="color: red;">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelNodeModal()" style="color: red;">Cancel</button>
                 <button type="button" class="btn btn-primary create" (click)="submitModal()">Create</button>
             </div>
         </div>
@@ -87,7 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="RelModalLabel">Create Relationship</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" (click)="cancelRelModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
             </div>
@@ -163,7 +163,7 @@
           </div> -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="color: red;">Cancel</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelRelModal()" style="color: red;">Cancel</button>
                 <button type="button" class="btn btn-primary create" (click)="submitRelModal()">Create</button>
             </div>
         </div>
