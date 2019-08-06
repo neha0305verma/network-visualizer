@@ -7,7 +7,7 @@
         <input type="text" [(ngModel)]=nodeLimit (ngModelChange)="limitChange(nodeLimit, popup)" suiPopup popupText="{{errorMessage}}" popupTrigger="manual" #popup="suiPopup">
     </div>
     <div class="creationToolbar">
-            <app-create-nodes [nodeTypes]="totalTypesArray" (nodeBtnEvent)="nodeEventCapture($event)" (edgeBtnEvent)="edgeEventCapture($event)"></app-create-nodes>
+            <app-create-nodes [nodeTypes]="totalTypesArray" [editData]="editNodeData" (nodeBtnEvent)="nodeEventCapture($event)" (edgeBtnEvent)="edgeEventCapture($event)"></app-create-nodes>
     </div>
 </div>
 <div class="graph-container" id="graphViewer">

@@ -585,6 +585,7 @@ var GraphDataService = /** @class */ (function () {
                 "MHRD",
                 "Mindtree Org",
                 "MoHUA",
+                "OxFord",
                 "Nasscom Foundation",
                 "NIEPA",
                 "NIUA",
@@ -748,6 +749,24 @@ var GraphDataService = /** @class */ (function () {
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])('Invalid data provided');
         }
     };
+    GraphDataService.prototype.updateNode = function (nodeData) {
+        var url = '/api/graph/node/update';
+        // tslint:disable-next-line: max-line-length
+        if (nodeData.hasOwnProperty('id') && nodeData.hasOwnProperty('type') && nodeData.hasOwnProperty('properties') && nodeData.properties.hasOwnProperty('Name')) {
+            // initial conditions are okay, now send the creation request
+            return this.publicHttp.post(url, nodeData).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+                if (!!data) {
+                    return data;
+                }
+                else {
+                    return { response: 'empty' };
+                }
+            }));
+        }
+        else {
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])('Invalid data provided');
+        }
+    };
     GraphDataService.prototype.createNewRelation = function (relationData) {
         var url = '/api/graph/relation/create';
         if (relationData.hasOwnProperty('type') && relationData.hasOwnProperty('to') && relationData.hasOwnProperty('from')) {
@@ -772,7 +791,7 @@ var GraphDataService = /** @class */ (function () {
         }));
     };
     GraphDataService.prototype.getNodeNames = function () {
-        return this.getInitialData().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+        return this.getInitialDataV2().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
             var nodeNames = [];
             if (data.hasOwnProperty('seperateNodes')) {
                 var newData = lodash__WEBPACK_IMPORTED_MODULE_5__["cloneDeep"](data['seperateNodes']);

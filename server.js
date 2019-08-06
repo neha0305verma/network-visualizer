@@ -27,5 +27,5 @@ app.use(express.static(path.join(__dirname, 'client/dist/')));
 
 app.listen(port, () => {
     neo4j.initiate();
-    console.log(`vis app server listening on port ${port}!`);
+    console.log(`network visualizer server is burining on ${port}!`);
 });

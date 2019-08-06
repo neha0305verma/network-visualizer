@@ -96,7 +96,7 @@ var ColorPanelComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n    <!--<a href=\"#\" class=\"deleteLink\"><span class=\"fas fa-plus-circle\">&nbsp;Delete Node</span></a> -->\n    <div class=\"btn-group nodes\">\n        <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Node\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createNode()\" data-toggle=\"modal\" data-target=\"#createNodeModal\"><span class=\"fas fa-plus-circle\"></span>Create Node</a>\n            <a class=\"dropdown-item edit\" (click)=\"editNode()\"><span class=\"far fa-edit\"></span>Edit Node</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteNode()\"><span class=\"far fa-trash-alt\"></span>Delete Node</a>\n        </div>\n    </div>\n    <div class=\"btn-group relationships\">\n        <button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Relationships\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createRelation()\" data-toggle=\"modal\" data-target=\"#createRelationModal\"><span class=\"fas fa-plus-circle\"></span>Create Relationship</a>\n            <a class=\"dropdown-item edit\" (click)=\"editRelation()\"><span class=\"far fa-edit\"></span>Edit Relationship</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteRelation()\"><span class=\"far fa-trash-alt\"></span>Delete Relationship</a>\n        </div>\n    </div>\n</div>\n<!--modal template to show when node is to be created-->\n<div class=\"modal fade\" id=\"createNodeModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"NodeModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"NodeModalLabel\">Create Node</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n            </div>\n            <div class=\"modal-body\">\n                <!-- <div class=\"modalItem\">\n            <p class=\"sectionName\">\n                Name\n            </p>\n            <span class=\"inputSpan\">\n              <input type=\"text\" id=\"nameText\">\n            </span>\n          </div> -->\n                <div class=\"modalItem\">\n                    <p class=\"sectionName\">\n                        Type\n                    </p>\n                    <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateProperties($event)\" [options]=\"typeOptions\" [maxSelected]=\"1\" #type>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of type.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n                </div>\n                <div class=\"modalItem\" *ngIf=\"labelProperties.length > 0\">\n                    <h5 class=\"propertyLabel\">\n                        Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                    </h5>\n                    <ng-container *ngFor=\"let data of labelProperties\">\n                        <div class=\"modalItem\">\n                            <p class=\"sectionName\">{{data}}</p>\n                            <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                        </div>\n                    </ng-container>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitModal()\">Create</button>\n            </div>\n        </div>\n    </div>\n</div>\n<!--modal node create end-->\n\n\n<!--modal relationship start-->\n<div class=\"modal fade\" id=\"createRelationModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"RelModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"RelModalLabel\">Create Relationship</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"modalItem\">\n                    <p class=\"sectionName\">\n                        Type\n                    </p>\n                    <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateRelProperties($event)\" [options]=\"relationTypeOptions\" [maxSelected]=\"1\" #typeRel>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of typeRel.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n                </div>\n                <div class=\"modalItem\" *ngIf=\"typeProperties.length > 0\">\n                    <h5 class=\"propertyLabel\">\n                        Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                    </h5>\n                    <ng-container *ngFor=\"let data of typeProperties\">\n                        <div class=\"modalItem\">\n                            <p class=\"sectionName\">{{data}}</p>\n                            <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                        </div>\n                    </ng-container>\n                </div>\n                <!-- <h5 class=\"propertyLabel\">\n            Connection <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n        </h5>\n          <div class=\"relationScope\">\n            <div class=\"modalItem\">\n              <p class=\"sectionName\">From</p>\n              <span class=\"inputSpan\">\n                <sui-multi-select [(ngModel)]=\"selectedNodeNameSource\" [options]=\"fromNames\" [maxSelected]=\"1\" #NodeFromName>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of NodeFromName.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n              </span>\n          </div>\n          <div class=\"modalItem\">\n            <p class=\"sectionName\">To</p>\n            <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedNodeNameTarget\" [options]=\"toNames\" [maxSelected]=\"1\" #NodeToName>\n                <div class=\"ui icon search input\">\n                    <i class=\"search icon\"></i>\n                    <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                </div>\n                <div class=\"scrolling menu\">\n                    <sui-select-option *ngFor=\"let o of NodeToName.filteredOptions\" [value]=\"o\">\n\n                    </sui-select-option>\n\n                </div>\n            </sui-multi-select>\n            </span>\n        </div>\n          </div> -->\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitRelModal()\">Create</button>\n            </div>\n        </div>\n    </div>\n</div>\n<!--modal relationship end-->"
+module.exports = "<div class=\"container-fluid\">\n    <!--<a href=\"#\" class=\"deleteLink\"><span class=\"fas fa-plus-circle\">&nbsp;Delete Node</span></a> -->\n    <div class=\"btn-group nodes\">\n        <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Node\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createNode()\" data-toggle=\"modal\" data-target=\"#createNodeModal\"><span class=\"fas fa-plus-circle\"></span>Create Node</a>\n            <a class=\"dropdown-item edit\" (click)=\"editNode()\"><span class=\"far fa-edit\"></span>Edit Node</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteNode()\"><span class=\"far fa-trash-alt\"></span>Delete Node</a>\n        </div>\n    </div>\n    <div class=\"btn-group relationships\">\n        <button type=\"button\" class=\"btn btn-success dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n      Relationships\n    </button>\n        <div class=\"dropdown-menu\">\n            <a class=\"dropdown-item create\" (click)=\"createRelation()\" data-toggle=\"modal\" data-target=\"#createRelationModal\"><span class=\"fas fa-plus-circle\"></span>Create Relationship</a>\n            <a class=\"dropdown-item edit\" (click)=\"editRelation()\"><span class=\"far fa-edit\"></span>Edit Relationship</a>\n            <a class=\"dropdown-item delete\" (click)=\"deleteRelation()\"><span class=\"far fa-trash-alt\"></span>Delete Relationship</a>\n        </div>\n    </div>\n</div>\n<!--modal template to show when node is to be created-->\n<div class=\"modal fade\" id=\"createNodeModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"NodeModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"NodeModalLabel\" *ngIf=\"popupConfig.createNodePopup === true\">Create Node</h5>\n                <h5 class=\"modal-title\" id=\"NodeModalLabel\" *ngIf=\"popupConfig.editNodePopup === true\">Edit Node</h5>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"modalItem\">\n                    <p class=\"sectionName\">\n                        Type\n                    </p>\n                    <span class=\"inputSpan\">\n              <!-- <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateProperties($event)\" [options]=\"typeOptions\" [maxSelected]=\"1\" #type>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of type.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select> -->\n              <sui-select class=\"selection\"\n              [(ngModel)]=\"selectedType\"\n              (ngModelChange)=\"updateProperties($event)\"\n              [options]=\"typeOptions\"\n              [isSearchable]=\"searchable\"\n              [isDisabled]=\"disabledBox\"\n              #select>\n      <sui-select-option *ngFor=\"let option of select.filteredOptions\"\n                         [value]=\"option\">\n      </sui-select-option>\n  </sui-select>\n            </span>\n                </div>\n                <div class=\"modalItem\" *ngIf=\"labelProperties?.length > 0 && selectedType?.length > 0\">\n                    <h5 class=\"propertyLabel\">\n                        Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                    </h5>\n                    <ng-container *ngFor=\"let data of labelProperties\">\n                        <div class=\"modalItem\">\n                            <p class=\"sectionName\">{{data}}</p>\n                            <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                        </div>\n                    </ng-container>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitModal()\" *ngIf=\"popupConfig.createNodePopup === true\">Create</button>\n                <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitModal('edit')\" *ngIf=\"popupConfig.editNodePopup === true\" id=\"edit_btn\">Update</button>\n            </div>\n        </div>\n    </div>\n    <!--modal node create end-->\n\n\n    <!--modal relationship start-->\n    <div class=\"modal fade\" id=\"createRelationModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"RelModalLabel\" aria-hidden=\"true\">\n        <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n            <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"RelModalLabel\">Create Relationship</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n                </div>\n                <div class=\"modal-body\">\n                    <div class=\"modalItem\">\n                        <p class=\"sectionName\">\n                            Type\n                        </p>\n                        <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedType\" (ngModelChange)=\"updateRelProperties($event)\" [options]=\"relationTypeOptions\" [maxSelected]=\"1\" #typeRel>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Type...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of typeRel.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n            </span>\n                    </div>\n                    <div class=\"modalItem\" *ngIf=\"typeProperties.length > 0\">\n                        <h5 class=\"propertyLabel\">\n                            Properties <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n                        </h5>\n                        <ng-container *ngFor=\"let data of typeProperties\">\n                            <div class=\"modalItem\">\n                                <p class=\"sectionName\">{{data}}</p>\n                                <span class=\"inputSpan\"><input type=\"text\" id=\"id_{{data}}\"></span>\n                            </div>\n                        </ng-container>\n                    </div>\n                    <!-- <h5 class=\"propertyLabel\">\n            Connection <span class=\"fas fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" [title]=\"toolTipText\"></span>\n        </h5>\n          <div class=\"relationScope\">\n            <div class=\"modalItem\">\n              <p class=\"sectionName\">From</p>\n              <span class=\"inputSpan\">\n                <sui-multi-select [(ngModel)]=\"selectedNodeNameSource\" (ngModelChange)=\"updateList('to',selectedNodeNameSource)\" [options]=\"fromNames\" [maxSelected]=\"1\" #NodeFromName>\n                  <div class=\"ui icon search input\">\n                      <i class=\"search icon\"></i>\n                      <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                  </div>\n                  <div class=\"scrolling menu\">\n                      <sui-select-option *ngFor=\"let o of NodeFromName.filteredOptions\" [value]=\"o\">\n\n                      </sui-select-option>\n\n                  </div>\n              </sui-multi-select>\n              </span>\n          </div>\n          <div class=\"modalItem\">\n            <p class=\"sectionName\">To</p>\n            <span class=\"inputSpan\">\n              <sui-multi-select [(ngModel)]=\"selectedNodeNameTarget\" (ngModelChange)=\"updateList('from',selectedNodeNameTarget)\" [options]=\"toNames\" [maxSelected]=\"1\" #NodeToName>\n                <div class=\"ui icon search input\">\n                    <i class=\"search icon\"></i>\n                    <input suiSelectSearch type=\"text\" placeholder=\"Search Node...\">\n                </div>\n                <div class=\"scrolling menu\">\n                    <sui-select-option *ngFor=\"let o of NodeToName.filteredOptions\" [value]=\"o\">\n\n                    </sui-select-option>\n\n                </div>\n            </sui-multi-select>\n            </span>\n        </div>\n          </div> -->\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" style=\"color: red;\">Cancel</button>\n                    <button type=\"button\" class=\"btn btn-primary create\" (click)=\"submitRelModal()\">Create</button>\n                </div>\n            </div>\n        </div>\n    </div>\n    <!--modal relationship end-->"
 
 /***/ }),
 
@@ -107,7 +107,7 @@ module.exports = "<div class=\"container-fluid\">\n    <!--<a href=\"#\" class=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container-fluid .btn-group {\n  margin-right: 20px; }\n\n.btn-group:active {\n  outline: none;\n  text-decoration: none; }\n\n.createLink, .editLink, .deleteLink {\n  text-decoration: none;\n  font-size: 12px; }\n\n.dropdown-menu .dropdown-item {\n  cursor: pointer; }\n\n.dropdown-menu .dropdown-item span {\n    margin-right: 8px; }\n\n.dropdown-menu .dropdown-item:active {\n  background-color: white; }\n\n.dropdown-menu .create:hover {\n  color: blue; }\n\n.dropdown-menu .edit:hover {\n  color: green; }\n\n.dropdown-menu .delete:hover {\n  color: red; }\n\n.modal-header {\n  background: #5f5f5f;\n  color: white;\n  border-color: #5f5f5f; }\n\n.modal-header button.close {\n    color: white; }\n\n.modalItem {\n  padding: 10px; }\n\n.modalItem .fa-info-circle {\n    font-size: 14px;\n    cursor: pointer; }\n\n.sectionName {\n  display: inline-block;\n  margin: 0;\n  max-width: 50%; }\n\n.inputSpan {\n  position: absolute;\n  left: 50%; }\n\n.inputSpan input {\n    border: 1px solid #acacac;\n    outline: none; }\n\n.propertyLabel {\n  padding-top: 13px;\n  padding-bottom: 13px;\n  text-align: center; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL25laGEvTmVoYVZlcm1hL1N1bmJpcmQvUHJvamVjdHMvTmV0d29yay1WaXN1YWxpemVyL25ldHdvcmstdmlzdWFsaXplci9jbGllbnQvc3JjL2FwcC9tb2R1bGVzL2Rhc2hib2FyZC12Mi9jb21wb25lbnRzL2NyZWF0ZS1ub2Rlcy9jcmVhdGUtbm9kZXMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBbUIsRUFBQTs7QUFHdkI7RUFDSSxhQUFjO0VBQ2QscUJBQXFCLEVBQUE7O0FBR3pCO0VBQ0kscUJBQXFCO0VBQ3JCLGVBQWUsRUFBQTs7QUFHbkI7RUFFUSxlQUFlLEVBQUE7O0FBRnZCO0lBSVksaUJBQWtCLEVBQUE7O0FBSjlCO0VBUVEsdUJBQXVCLEVBQUE7O0FBUi9CO0VBV1EsV0FBWSxFQUFBOztBQVhwQjtFQWNRLFlBQWEsRUFBQTs7QUFkckI7RUFpQlEsVUFBVyxFQUFBOztBQUluQjtFQUNJLG1CQUFvQjtFQUNwQixZQUFhO0VBQ2IscUJBQXFCLEVBQUE7O0FBSHpCO0lBS1EsWUFBYSxFQUFBOztBQUdyQjtFQUNJLGFBQWMsRUFBQTs7QUFEbEI7SUFHUSxlQUFnQjtJQUNoQixlQUFlLEVBQUE7O0FBSXZCO0VBQ0kscUJBQXNCO0VBQ3RCLFNBQVU7RUFDVixjQUFlLEVBQUE7O0FBR25CO0VBQ0ksa0JBQW1CO0VBQ25CLFNBQVUsRUFBQTs7QUFGZDtJQUlRLHlCQUEwQjtJQUMxQixhQUFjLEVBQUE7O0FBSXRCO0VBQ0ksaUJBQWlCO0VBQ2pCLG9CQUFvQjtFQUNwQixrQkFBa0IsRUFBQSIsImZpbGUiOiJzcmMvYXBwL21vZHVsZXMvZGFzaGJvYXJkLXYyL2NvbXBvbmVudHMvY3JlYXRlLW5vZGVzL2NyZWF0ZS1ub2Rlcy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXItZmx1aWQgLmJ0bi1ncm91cCB7XG4gICAgbWFyZ2luLXJpZ2h0IDogMjBweDtcbn1cblxuLmJ0bi1ncm91cDphY3RpdmUge1xuICAgIG91dGxpbmUgOiBub25lO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbn1cblxuLmNyZWF0ZUxpbmssIC5lZGl0TGluaywgLmRlbGV0ZUxpbmsge1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBmb250LXNpemU6IDEycHg7XG59XG5cbi5kcm9wZG93bi1tZW51IHtcbiAgICAuZHJvcGRvd24taXRlbSB7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgc3BhbiB7XG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQgOiA4cHg7XG4gICAgICAgIH1cbiAgICB9XG4gICAgLmRyb3Bkb3duLWl0ZW06YWN0aXZlIHtcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgfVxuICAgIC5jcmVhdGU6aG92ZXIge1xuICAgICAgICBjb2xvciA6IGJsdWU7XG4gICAgfVxuICAgIC5lZGl0OmhvdmVyIHtcbiAgICAgICAgY29sb3IgOiBncmVlbjtcbiAgICB9XG4gICAgLmRlbGV0ZTpob3ZlciB7XG4gICAgICAgIGNvbG9yIDogcmVkO1xuICAgIH1cbn1cblxuLm1vZGFsLWhlYWRlciB7XG4gICAgYmFja2dyb3VuZCA6ICM1ZjVmNWY7XG4gICAgY29sb3IgOiB3aGl0ZTtcbiAgICBib3JkZXItY29sb3I6ICM1ZjVmNWY7XG4gICAgYnV0dG9uLmNsb3NlIHtcbiAgICAgICAgY29sb3IgOiB3aGl0ZTtcbiAgICB9XG59XG4ubW9kYWxJdGVtIHtcbiAgICBwYWRkaW5nIDogMTBweDtcbiAgICAuZmEtaW5mby1jaXJjbGUge1xuICAgICAgICBmb250LXNpemUgOiAxNHB4O1xuICAgICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxufVxuXG4uc2VjdGlvbk5hbWUge1xuICAgIGRpc3BsYXkgOiBpbmxpbmUtYmxvY2s7XG4gICAgbWFyZ2luIDogMDtcbiAgICBtYXgtd2lkdGggOiA1MCU7XG59XG5cbi5pbnB1dFNwYW4ge1xuICAgIHBvc2l0aW9uIDogYWJzb2x1dGU7XG4gICAgbGVmdCA6IDUwJTtcbiAgICBpbnB1dCB7XG4gICAgICAgIGJvcmRlciA6IDFweCBzb2xpZCAjYWNhY2FjO1xuICAgICAgICBvdXRsaW5lIDogbm9uZTtcbiAgICB9XG59XG5cbi5wcm9wZXJ0eUxhYmVsIHtcbiAgICBwYWRkaW5nLXRvcDogMTNweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMTNweDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59Il19 */"
+module.exports = ".container-fluid .btn-group {\n  margin-right: 20px; }\n\n.btn-group:active {\n  outline: none;\n  text-decoration: none; }\n\n.createLink, .editLink, .deleteLink {\n  text-decoration: none;\n  font-size: 12px; }\n\n.dropdown-menu .dropdown-item {\n  cursor: pointer; }\n\n.dropdown-menu .dropdown-item span {\n    margin-right: 8px; }\n\n.dropdown-menu .dropdown-item:active {\n  background-color: white; }\n\n.dropdown-menu .create:hover {\n  color: blue; }\n\n.dropdown-menu .edit:hover {\n  color: green; }\n\n.dropdown-menu .delete:hover {\n  color: red; }\n\n.modal-header {\n  background: #5f5f5f;\n  color: white;\n  border-color: #5f5f5f; }\n\n.modal-header button.close {\n    color: white; }\n\n.modalItem {\n  padding: 10px; }\n\n.modalItem .fa-info-circle {\n    font-size: 14px;\n    cursor: pointer; }\n\n.sectionName {\n  display: inline-block;\n  margin: 0;\n  max-width: 50%; }\n\n.inputSpan {\n  position: absolute;\n  left: 50%; }\n\n.inputSpan input {\n    border: 1px solid #acacac;\n    outline: none; }\n\n.propertyLabel {\n  padding-top: 13px;\n  padding-bottom: 13px;\n  text-align: center; }\n\ninput[disabled=\"true\"] {\n  cursor: not-allowed; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL25laGEvTmVoYVZlcm1hL1N1bmJpcmQvUHJvamVjdHMvTmV0d29yay1WaXN1YWxpemVyL25ldHdvcmstdmlzdWFsaXplci9jbGllbnQvc3JjL2FwcC9tb2R1bGVzL2Rhc2hib2FyZC12Mi9jb21wb25lbnRzL2NyZWF0ZS1ub2Rlcy9jcmVhdGUtbm9kZXMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBbUIsRUFBQTs7QUFHdkI7RUFDSSxhQUFjO0VBQ2QscUJBQXFCLEVBQUE7O0FBR3pCO0VBQ0kscUJBQXFCO0VBQ3JCLGVBQWUsRUFBQTs7QUFHbkI7RUFFUSxlQUFlLEVBQUE7O0FBRnZCO0lBSVksaUJBQWtCLEVBQUE7O0FBSjlCO0VBUVEsdUJBQXVCLEVBQUE7O0FBUi9CO0VBV1EsV0FBWSxFQUFBOztBQVhwQjtFQWNRLFlBQWEsRUFBQTs7QUFkckI7RUFpQlEsVUFBVyxFQUFBOztBQUluQjtFQUNJLG1CQUFvQjtFQUNwQixZQUFhO0VBQ2IscUJBQXFCLEVBQUE7O0FBSHpCO0lBS1EsWUFBYSxFQUFBOztBQUdyQjtFQUNJLGFBQWMsRUFBQTs7QUFEbEI7SUFHUSxlQUFnQjtJQUNoQixlQUFlLEVBQUE7O0FBSXZCO0VBQ0kscUJBQXNCO0VBQ3RCLFNBQVU7RUFDVixjQUFlLEVBQUE7O0FBR25CO0VBQ0ksa0JBQW1CO0VBQ25CLFNBQVUsRUFBQTs7QUFGZDtJQUlRLHlCQUEwQjtJQUMxQixhQUFjLEVBQUE7O0FBSXRCO0VBQ0ksaUJBQWlCO0VBQ2pCLG9CQUFvQjtFQUNwQixrQkFBa0IsRUFBQTs7QUFHdEI7RUFDSSxtQkFBbUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL21vZHVsZXMvZGFzaGJvYXJkLXYyL2NvbXBvbmVudHMvY3JlYXRlLW5vZGVzL2NyZWF0ZS1ub2Rlcy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXItZmx1aWQgLmJ0bi1ncm91cCB7XG4gICAgbWFyZ2luLXJpZ2h0IDogMjBweDtcbn1cblxuLmJ0bi1ncm91cDphY3RpdmUge1xuICAgIG91dGxpbmUgOiBub25lO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbn1cblxuLmNyZWF0ZUxpbmssIC5lZGl0TGluaywgLmRlbGV0ZUxpbmsge1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBmb250LXNpemU6IDEycHg7XG59XG5cbi5kcm9wZG93bi1tZW51IHtcbiAgICAuZHJvcGRvd24taXRlbSB7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgc3BhbiB7XG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQgOiA4cHg7XG4gICAgICAgIH1cbiAgICB9XG4gICAgLmRyb3Bkb3duLWl0ZW06YWN0aXZlIHtcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgfVxuICAgIC5jcmVhdGU6aG92ZXIge1xuICAgICAgICBjb2xvciA6IGJsdWU7XG4gICAgfVxuICAgIC5lZGl0OmhvdmVyIHtcbiAgICAgICAgY29sb3IgOiBncmVlbjtcbiAgICB9XG4gICAgLmRlbGV0ZTpob3ZlciB7XG4gICAgICAgIGNvbG9yIDogcmVkO1xuICAgIH1cbn1cblxuLm1vZGFsLWhlYWRlciB7XG4gICAgYmFja2dyb3VuZCA6ICM1ZjVmNWY7XG4gICAgY29sb3IgOiB3aGl0ZTtcbiAgICBib3JkZXItY29sb3I6ICM1ZjVmNWY7XG4gICAgYnV0dG9uLmNsb3NlIHtcbiAgICAgICAgY29sb3IgOiB3aGl0ZTtcbiAgICB9XG59XG4ubW9kYWxJdGVtIHtcbiAgICBwYWRkaW5nIDogMTBweDtcbiAgICAuZmEtaW5mby1jaXJjbGUge1xuICAgICAgICBmb250LXNpemUgOiAxNHB4O1xuICAgICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxufVxuXG4uc2VjdGlvbk5hbWUge1xuICAgIGRpc3BsYXkgOiBpbmxpbmUtYmxvY2s7XG4gICAgbWFyZ2luIDogMDtcbiAgICBtYXgtd2lkdGggOiA1MCU7XG59XG5cbi5pbnB1dFNwYW4ge1xuICAgIHBvc2l0aW9uIDogYWJzb2x1dGU7XG4gICAgbGVmdCA6IDUwJTtcbiAgICBpbnB1dCB7XG4gICAgICAgIGJvcmRlciA6IDFweCBzb2xpZCAjYWNhY2FjO1xuICAgICAgICBvdXRsaW5lIDogbm9uZTtcbiAgICB9XG59XG5cbi5wcm9wZXJ0eUxhYmVsIHtcbiAgICBwYWRkaW5nLXRvcDogMTNweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMTNweDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbmlucHV0W2Rpc2FibGVkPVwidHJ1ZVwiXSB7XG4gICAgY3Vyc29yOiBub3QtYWxsb3dlZDtcbiAgfSJdfQ== */"
 
 /***/ }),
 
@@ -127,6 +127,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var src_app_modules_core_services_graph_data_service_graph_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/modules/core/services/graph-data-service/graph-data.service */ "./src/app/modules/core/services/graph-data-service/graph-data.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+
 
 
 
@@ -138,9 +140,11 @@ var CreateNodesComponent = /** @class */ (function () {
         this.graphSrvc = graphSrvc;
         this.cdr = cdr;
         this.nodeBtnEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.disabledBox = false;
         this.edgeBtnEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.nodeTypes = [];
         this.nodeTypes2 = [];
+        this.selectedType = [];
         this.typeOptions = [];
         this.toolTipText = '';
         this.labelProperties = [];
@@ -148,6 +152,20 @@ var CreateNodesComponent = /** @class */ (function () {
         this.typeProperties = [];
         this.toNames = [];
         this.fromNames = [];
+        this.editNodeConfig = {};
+        this.deleteNodeConfig = {};
+        this.queryObj = {
+            raw: true,
+            query: "MATCH (p) WITH DISTINCT keys(p) AS keys,p\n     with DISTINCT labels(p) as label,keys \n     UNWIND keys AS keyslisting WITH DISTINCT keyslisting AS allfields,label\n     RETURN collect(allfields),label"
+        };
+        this.popupConfig = {
+            createNodePopup: false,
+            editNodePopup: false,
+            deleteNodePopup: false,
+            createRelationPopup: false,
+            editRelationPopup: false,
+            deleteRelationPopup: false
+        };
     }
     CreateNodesComponent.prototype.ngOnInit = function () {
         this.toolTipText = 'The Properties section can be left blank to set a default Node';
@@ -155,21 +173,27 @@ var CreateNodesComponent = /** @class */ (function () {
     };
     CreateNodesComponent.prototype.createNode = function () {
         var _this = this;
-        var queryObj = {
-            raw: true,
-            query: "MATCH (p) WITH DISTINCT keys(p) AS keys,p\n       with DISTINCT labels(p) as label,keys \n       UNWIND keys AS keyslisting WITH DISTINCT keyslisting AS allfields,label\n       RETURN collect(allfields),label"
-        };
-        this.SharedSrvc.runQuery(queryObj).subscribe(function (data) {
-            console.log('recieved label data from service ', data);
-            _this.processedData = _this.processData(data);
-            // extract types from the array
-            _this.extractLabels(_this.processedData);
-            _this.typeOptions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](_this.nodeTypes2);
+        this.popupConfig.createNodePopup = true;
+        this.disabledBox = false;
+        /* this.SharedSrvc.runQuery(this.queryObj).subscribe(data => {
+          console.log('recieved label data from service ', data);
+          this.processedData = this.processData(data);
+          // extract types from the array
+          this.extractLabels(this.processedData);
+          this.typeOptions = _.cloneDeep(this.nodeTypes2);
+        }, err => {
+          console.log('An error occured while reading label data from the database');
+        }); */
+        this.getNodeTypes().subscribe(function (data) {
+            _this.typeOptions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](data);
         }, function (err) {
-            console.log('An error occured while reading label data from the database');
+            console.log('An error occured while reading label data from the database', err);
+            _this.typeOptions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"]([]);
         });
     };
     CreateNodesComponent.prototype.editNode = function () {
+        this.disabledBox = true;
+        // this will send the edit event and then the app will wait for the node click event sent back to this component
         this.nodeBtnEvent.emit({ type: 'click', action: 'edit' });
     };
     CreateNodesComponent.prototype.deleteNode = function () {
@@ -193,29 +217,142 @@ var CreateNodesComponent = /** @class */ (function () {
     CreateNodesComponent.prototype.deleteRelation = function () {
         this.edgeBtnEvent.emit({ type: 'click', action: 'delete' });
     };
-    CreateNodesComponent.prototype.ngOnChanges = function (changes) {
-        // console.log('Types recieved in create Nodes ', this.nodeTypes);
-        // this.typeOptions = this.nodeTypes2;
+    CreateNodesComponent.prototype.getNodeTypes = function () {
+        var _this = this;
+        return this.SharedSrvc.runQuery(this.queryObj).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(function (data) {
+            console.log('recieved label data from service ', data);
+            _this.processedData = _this.processData(data);
+            // extract types from the array
+            _this.extractLabels(_this.processedData);
+            // this.typeOptions = _.cloneDeep(this.nodeTypes2);
+            return _this.nodeTypes2;
+        }));
     };
-    CreateNodesComponent.prototype.submitModal = function () {
+    CreateNodesComponent.prototype.ngOnChanges = function (changes) {
+        var _this = this;
+        $('#createNodeModal').on('hidden.bs.modal', function (e) {
+            // this event will reset the popupConfig object so that everytime correct data is accessed
+            _this.setAllToFalse();
+        });
+        if ((!!this.editData && !!this.editData.length) || (!!this.editData && !!Object.keys(this.editData).length)) {
+            // console.log('edit data recieved is ', this.editData);
+            this.editNodeConfig = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"]({ properties: this.editData['properties'], type: this.editData['type'][0], id: this.editData['id'] });
+            // console.log('editNodeConfig is ', this.editNodeConfig);
+            this.selectedType = null;
+            this.getNodeTypes().subscribe(function (data) {
+                _this.typeOptions = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](data);
+                _this.selectedType = _this.editNodeConfig['type'];
+                // trigger update properties to show data before hand
+                _this.updateProperties(_this.selectedType);
+                var prefilledInfo = _this.recreatePrefilledData(_this.editData['properties']);
+                if (!!prefilledInfo) {
+                    // console.log('recieved some prefilled info ', prefilledInfo);
+                    // set the data into the modal
+                    _this.prefillData('createNodeModal', prefilledInfo, _this.editNodeConfig['id']);
+                }
+                else {
+                    // will allow the modal to be visible anyway
+                    console.error('An error occured while prefilling the data, did not recieve anyhting');
+                }
+            }, function (err) {
+                console.log('An error occured while reading label data from the database');
+                _this.typeOptions = [];
+            });
+        }
+    };
+    CreateNodesComponent.prototype.prefillData = function (modalID, dataToFill, nodeID) {
+        var _this = this;
+        if (!modalID) {
+            console.warn('cannot prefill data as modal id is not supplied');
+        }
+        else if (!Object.keys(dataToFill).length) {
+            console.warn('Did not recieve any data to prefill');
+        }
+        else {
+            // both are supplied, time to prefill the modal
+            if ($("#" + modalID).length) {
+                this.popupConfig.editNodePopup = true;
+                this.showModal(modalID);
+                // found the modal
+                $("#" + modalID).on('shown.bs.modal', function (event) {
+                    // capture the modal text boxes once it is visible
+                    $("#" + modalID + " :text").each(function () {
+                        var key = $(this).attr('id') || null;
+                        if (Object.keys(dataToFill).indexOf(key) > -1) {
+                            // assign this text box a prefilled value from dataToFill
+                            $("[id='" + key + "']").val(dataToFill[key]);
+                            // disable the Name box since it is unique fot the database
+                            /* if (key === 'id_Name') {
+                              $(`[id='${key}']`).attr('disabled', 'disabled');
+                            } */
+                        }
+                    });
+                    // add id of the node to the modal
+                    _this.addAttribute('edit_btn', 'node_id', nodeID);
+                });
+            }
+            else {
+                console.warn('did not find any element with provided ID');
+            }
+        }
+    };
+    CreateNodesComponent.prototype.addAttribute = function (elementID, attributeKey, attributeValue) {
+        $("[id='" + elementID + "']").attr(attributeKey, attributeValue);
+    };
+    CreateNodesComponent.prototype.recreatePrefilledData = function (prefilledData) {
+        // main purpose is to attach id_ to the object keys so that it can be used to find elements in the modal
+        if (Object.keys(prefilledData).length > 0) {
+            // iterate on the keys and rename them
+            var prefilledObj_1 = {};
+            Object.keys(prefilledData).forEach(function (key) {
+                var newKey = "id_" + key;
+                prefilledObj_1[newKey] = prefilledData[key];
+            });
+            return prefilledObj_1;
+        }
+        else {
+            return null;
+        }
+    };
+    CreateNodesComponent.prototype.showModal = function (modalID) {
+        $("#" + modalID).modal('show');
+    };
+    CreateNodesComponent.prototype.setAllToFalse = function () {
+        var _this = this;
+        Object.keys(this.popupConfig).forEach(function (key) {
+            if (_this.popupConfig[key]) {
+                _this.popupConfig[key] = false;
+            }
+        });
+        this.selectedType = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"]([]);
+    };
+    CreateNodesComponent.prototype.submitModal = function (type) {
+        if (type === void 0) { type = 'create'; }
+        console.log(type);
         var nodeData = {
             id: null,
             properties: {},
             type: null
         };
-        nodeData.type = this.selectedType;
+        nodeData.type = [this.selectedType];
         $('#createNodeModal :text').each(function () {
             var key = $(this).attr('id') || null;
             var value = $(this).val() || null;
             nodeData.properties[key] = value;
         });
-        console.log(nodeData);
         try {
             nodeData = this.validateNodeData(nodeData);
-            console.log('node created is ', nodeData);
-            this.nodeBtnEvent.emit({ type: 'click', action: 'create', data: nodeData });
             // hide the modal once the data is created properly
             $('#createNodeModal').modal('hide');
+            if (type === 'create') {
+                console.log('node created is ', nodeData);
+                this.nodeBtnEvent.emit({ type: 'click', action: 'create', data: nodeData });
+                this.popupConfig.createNodePopup = false;
+            }
+            else if (type === 'edit') {
+                this.nodeBtnEvent.emit({ type: 'click', action: 'edit', data: nodeData, process: 'complete' });
+                this.popupConfig.editNodePopup = false;
+            }
         }
         catch (e) {
             console.log(e);
@@ -274,6 +411,7 @@ var CreateNodesComponent = /** @class */ (function () {
     };
     CreateNodesComponent.prototype.extractLabels = function (data) {
         var _this = this;
+        this.nodeTypes2 = [];
         data.forEach(function (label) {
             _this.nodeTypes2.push(label.type[0]);
         });
@@ -281,7 +419,8 @@ var CreateNodesComponent = /** @class */ (function () {
     };
     CreateNodesComponent.prototype.updateProperties = function (event) {
         // fetch the properties of selected label and display it in the dropdown
-        this.labelProperties = this.getProperties(event);
+        // console.log(event)
+        this.labelProperties = this.getProperties([event]);
     };
     CreateNodesComponent.prototype.getProperties = function (labelName) {
         if (labelName.length > 0) {
@@ -317,6 +456,13 @@ var CreateNodesComponent = /** @class */ (function () {
         console.log('new properties are ', nodeObj);
         // assign a unique id to the node
         nodeObj['id'] = this.generateID();
+        if (this.popupConfig.editNodePopup === true) {
+            // assign the node id
+            this.disabledBox = true;
+            var nodeID = !isNaN($("#edit_btn").attr('node_id')) ? $("#edit_btn").attr('node_id') : null;
+            console.log('node id is ', nodeID);
+            nodeObj['id'] = nodeID;
+        }
         // get the type array removed
         nodeObj['type'] = nodeObj['type'][0];
         return nodeObj;
@@ -342,7 +488,8 @@ var CreateNodesComponent = /** @class */ (function () {
         this.typeProperties = this.getRelProperties(event);
         // trigger an api to get all the names of the nodes in the graph
         this.graphSrvc.getNodeNames().subscribe(function (response) {
-            _this.fromNames = _this.toNames = response;
+            _this.fromNames = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](response);
+            _this.toNames = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](response);
         }, function (error) {
             console.log(error);
             _this.fromNames = [];
@@ -397,6 +544,31 @@ var CreateNodesComponent = /** @class */ (function () {
             console.log(e);
         }
     };
+    CreateNodesComponent.prototype.updateList = function (key, name) {
+        if (name.length > 0) {
+            var ans = '';
+            // if name is selected from source, remove it from target and vice versa
+            if (key == 'from') {
+                ans = lodash__WEBPACK_IMPORTED_MODULE_3__["remove"](this.fromNames, function (val) {
+                    return val === name[0];
+                });
+                if (ans) {
+                    this.fromNames = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](this.fromNames);
+                }
+            }
+            else if (key == 'to') {
+                ans = lodash__WEBPACK_IMPORTED_MODULE_3__["remove"](this.toNames, function (val) {
+                    return val === name[0];
+                });
+                if (ans) {
+                    this.toNames = lodash__WEBPACK_IMPORTED_MODULE_3__["cloneDeep"](this.toNames);
+                }
+            }
+            else {
+                // nothing
+            }
+        }
+    };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
@@ -409,6 +581,10 @@ var CreateNodesComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Array)
     ], CreateNodesComponent.prototype, "nodeTypes", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], CreateNodesComponent.prototype, "editData", void 0);
     CreateNodesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-create-nodes',
@@ -903,7 +1079,7 @@ var DashboardSidebarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-global-loader *ngIf=\"loader\"></app-global-loader>\n<app-color-panel *ngIf=\"!loader\"></app-color-panel>\n<div class=\"wrapper-countlimit\" *ngIf=\"!loader\">\n    <div class=\"selected-count\">{{selectedCount}} Elements Found</div>\n    <div class=\"nodeLimit\">\n        <p class=\"nodelimit-head\">Element Limit :</p>\n        <input type=\"text\" [(ngModel)]=nodeLimit (ngModelChange)=\"limitChange(nodeLimit, popup)\" suiPopup popupText=\"{{errorMessage}}\" popupTrigger=\"manual\" #popup=\"suiPopup\">\n    </div>\n    <div class=\"creationToolbar\">\n            <app-create-nodes [nodeTypes]=\"totalTypesArray\" (nodeBtnEvent)=\"nodeEventCapture($event)\" (edgeBtnEvent)=\"edgeEventCapture($event)\"></app-create-nodes>\n    </div>\n</div>\n<div class=\"graph-container\" id=\"graphViewer\">\n</div>\n<ng-template *ngIf=\"showlimiterror\" let-popup #popupTemplate>\n    <div class=\"header\">Rating</div>\n    <div class=\"content\">\n        <sui-rating class=\"star\" (click)=\"popup.close()\"></sui-rating>\n    </div>\n</ng-template>"
+module.exports = "<app-global-loader *ngIf=\"loader\"></app-global-loader>\n<app-color-panel *ngIf=\"!loader\"></app-color-panel>\n<div class=\"wrapper-countlimit\" *ngIf=\"!loader\">\n    <div class=\"selected-count\">{{selectedCount}} Elements Found</div>\n    <div class=\"nodeLimit\">\n        <p class=\"nodelimit-head\">Element Limit :</p>\n        <input type=\"text\" [(ngModel)]=nodeLimit (ngModelChange)=\"limitChange(nodeLimit, popup)\" suiPopup popupText=\"{{errorMessage}}\" popupTrigger=\"manual\" #popup=\"suiPopup\">\n    </div>\n    <div class=\"creationToolbar\">\n            <app-create-nodes [nodeTypes]=\"totalTypesArray\" [editData]=\"editNodeData\" (nodeBtnEvent)=\"nodeEventCapture($event)\" (edgeBtnEvent)=\"edgeEventCapture($event)\"></app-create-nodes>\n    </div>\n</div>\n<div class=\"graph-container\" id=\"graphViewer\">\n</div>\n<ng-template *ngIf=\"showlimiterror\" let-popup #popupTemplate>\n    <div class=\"header\">Rating</div>\n    <div class=\"content\">\n        <sui-rating class=\"star\" (click)=\"popup.close()\"></sui-rating>\n    </div>\n</ng-template>"
 
 /***/ }),
 
@@ -983,13 +1159,13 @@ var GraphVisualizerComponent = /** @class */ (function () {
                 "Research Institute": '#c51162'
             }
         };
+        this.editNodeData = null;
         this.networkInstance = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.graphOptions = {
             physics: false,
             edges: {
                 smooth: {
-                    type: 'continuous',
-                    forceDirection: 'none'
+                    type: 'dynamic'
                 }
             },
             nodes: {
@@ -1159,7 +1335,7 @@ var GraphVisualizerComponent = /** @class */ (function () {
                             type: [event.data.type],
                             properties: event.data.properties
                         };
-                        //let newNodeForVis = _.cloneDeep(newNodeData);
+                        // let newNodeForVis = _.cloneDeep(newNodeData);
                         // make a request to create a node, if it succeedes only then show in the graph
                         _this.graphService.createNewNode(newNodeData).subscribe(function (response) {
                             console.log(response);
@@ -1171,7 +1347,7 @@ var GraphVisualizerComponent = /** @class */ (function () {
                                 _this.graphData['nodes'].add([visNode]);
                             }
                             catch (addErr) {
-                                console.log('Error while adding the data node to vis ', addErr['message']);
+                                console.error('Error while adding the data node to vis ', addErr['message']);
                             }
                         }, function (error) {
                             console.error('An error occured while creating node in  database ', error);
@@ -1179,10 +1355,59 @@ var GraphVisualizerComponent = /** @class */ (function () {
                     }
                 });
             }
-            else if (event.action === 'edit') {
+            else if (event.action === 'edit' && !event.hasOwnProperty('process')) {
                 // handle the functionality of editing the node
+                console.log('Node edit is being clicked');
+                this.network.once('click', function (clickEvent) {
+                    console.log(clickEvent);
+                    var clickedNode = _this.graphData['nodes'].get(clickEvent.nodes);
+                    // if there are multiple nodes one above another, always select the top most one
+                    if (clickedNode.length > 0) {
+                        clickedNode = lodash__WEBPACK_IMPORTED_MODULE_4__["cloneDeep"](clickedNode[0]);
+                    }
+                    console.log('clicked Node is ', clickedNode);
+                    _this.startEditProcess(clickedNode);
+                });
+            }
+            else if (event.action === 'edit' && event.hasOwnProperty('process') && event.process === 'complete') {
+                // this will be invoked when the user has clicked on edit feature and submitted the form with new data
+                console.log('edit event captured with new data', event.data);
+                // the process is to first create a node for data base update
+                // once the node is updated , use the updated node from the database to update in the visJS
+                var newNodeData = {
+                    id: event.data.id,
+                    label: event.data.properties.Name,
+                    type: [event.data.type],
+                    properties: event.data.properties
+                };
+                this.graphService.updateNode(newNodeData).subscribe(function (response) {
+                    console.log('response from update node ', response);
+                    try {
+                        var updatedNode = response['seperateNodes'][0];
+                        // logic to update node in vis data set
+                        var visNode = _this.graphData['nodes'].get(updatedNode['id']);
+                        // update everything except color and id
+                        if ([visNode].length == 1) {
+                            visNode['properties'] = updatedNode['properties'];
+                            visNode['label'] = updatedNode['label'];
+                            visNode['title'] = updatedNode['title'];
+                            visNode['type'] = updatedNode['type'];
+                            console.log('update node details are ', visNode);
+                            // node was present, simply update it now
+                            _this.graphData['nodes'].update(visNode);
+                        }
+                        console.log(visNode);
+                    }
+                    catch (updateErr) {
+                        // any error encountered while updating the node in vis js
+                        console.error('Error while upating the data node to vis ', updateErr['message']);
+                    }
+                }, function (err) {
+                    console.error('An error occured while updating node in database ', err);
+                });
             }
             else if (event.action === 'delete') {
+                console.log('Node delete has been clicked');
                 // handle the functionality of deleting the node
             }
             else {
@@ -1251,6 +1476,22 @@ var GraphVisualizerComponent = /** @class */ (function () {
         node['color'] = this.colorConfig.defaultColor[event.data.type];
         console.log('final node is ', node);
         return node;
+    };
+    GraphVisualizerComponent.prototype.addNodeColor = function (node) {
+        var colorCode = this.colorConfig.defaultColor[node.type[0]] || null;
+        if (colorCode) {
+            node['color'] = colorCode;
+            return node;
+        }
+        else {
+            console.warn('Error while adding color to the node ', node['label']);
+            return node;
+        }
+    };
+    GraphVisualizerComponent.prototype.startEditProcess = function (clickedNode) {
+        // to extract relevant information and send it back to the edit modal
+        console.log(clickedNode);
+        this.editNodeData = clickedNode;
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),

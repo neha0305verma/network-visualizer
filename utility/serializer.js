@@ -19,12 +19,14 @@ var Neo4JtoVisFormat = (data) => {
                 // node are at index 0 and 1, edge is at position 2
                 let realNodes = dataNode._fields;
                 realNodes.forEach(someData => {
-                    if (someData.hasOwnProperty('start') && someData.hasOwnProperty('end')) {
-                        // this someData is an edge
-                        seperateEdges.push(someData);
-                    } else {
-                        //it is a node
-                        seperateNodes.push(someData);
+                    if (!!someData) {
+                        if (someData.hasOwnProperty('start') && someData.hasOwnProperty('end')) {
+                            // this someData is an edge
+                            seperateEdges.push(someData);
+                        } else {
+                            //it is a node
+                            seperateNodes.push(someData);
+                        }
                     }
                 });
                 /* let node1 = dataNode._fields[0];

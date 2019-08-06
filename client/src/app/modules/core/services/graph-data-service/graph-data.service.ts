@@ -150,6 +150,7 @@ export class GraphDataService {
         "MHRD",
         "Mindtree Org",
         "MoHUA",
+        "OxFord",
         "Nasscom Foundation",
         "NIEPA",
         "NIUA",
@@ -314,6 +315,23 @@ export class GraphDataService {
     }
   }
 
+  updateNode(nodeData) {
+    const url = '/api/graph/node/update';
+    // tslint:disable-next-line: max-line-length
+    if (nodeData.hasOwnProperty('id') && nodeData.hasOwnProperty('type') && nodeData.hasOwnProperty('properties') && nodeData.properties.hasOwnProperty('Name')) {
+      // initial conditions are okay, now send the creation request
+      return this.publicHttp.post(url, nodeData).pipe(map(data => {
+        if (!!data) {
+          return data;
+        } else {
+          return {response: 'empty'};
+      }
+      }));
+    } else {
+      return throwError('Invalid data provided');
+    }
+  }
+
   createNewRelation(relationData) {
     const url = '/api/graph/relation/create';
     if (relationData.hasOwnProperty('type') &&  relationData.hasOwnProperty('to') && relationData.hasOwnProperty('from') ) {
@@ -339,7 +357,7 @@ export class GraphDataService {
   }
 
   getNodeNames() {
-    return this.getInitialData().pipe(map(data => {
+    return this.getInitialDataV2().pipe(map(data => {
       let nodeNames = [];
       if (data.hasOwnProperty('seperateNodes')) {
         let newData = _.cloneDeep(data['seperateNodes']);

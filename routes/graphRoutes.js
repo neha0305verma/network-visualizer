@@ -165,6 +165,24 @@ router.post('/graph/node/create', (req,res) => {
     }
 })
 
+router.post('/graph/node/update', (req,res) => {
+    console.log('update node hit');
+    if(!!Object.keys(req.body).length) {
+        neo4j.updateNode(req)
+        .then(response => {
+            res.send(response);
+        })
+        .catch(err => {
+            console.log('err occured while sending back node update data', err);
+            res.status(400).send(err);
+        });
+    }
+    else {
+        // empty object not allowed
+        res.status(400).send({ 'error': 'Request Body is required to access the API' });
+    }
+});
+
 router.post('/graph/relation/create', (req,res) => {
     console.log('create relation hit');
     // get the body, else return the error that no body is provided
