@@ -30073,20 +30073,20 @@ var GraphD3VisualizerComponent = /** @class */ (function () {
                     return 'rotate(0)';
                 }
             });
+            // to set boundery to forcelayout
+            var r = _this.circleRadius;
+            var w = _this.width;
+            var h = _this.height;
             // update label positions
             nodelabels
-                .attr("x", function (d) { return d['x']; })
-                .attr("y", function (d) { return d['y']; });
+                .attr("x", function (d) { return d['x'] = Math.max(r, Math.min(w - r, d['x'])); })
+                .attr("y", function (d) { return d['y'] = Math.max(r, Math.min(h - r, d['y'])); });
             link
                 .attr("x1", function (d) { return d['source'].x; })
                 .attr("y1", function (d) { return d['source'].y; })
                 .attr("x2", function (d) { return d['target'].x; })
                 .attr("y2", function (d) { return d['target'].y; });
             // console.log('wh', window.innerWidth, window.innerHeight);
-            // to set boundery to forcelayout
-            var r = _this.circleRadius;
-            var w = _this.width;
-            var h = _this.height;
             node
                 .attr("cx", function (d) { return d['x'] = Math.max(r, Math.min(w - r, d['x'])); })
                 .attr("cy", function (d) { return d['y'] = Math.max(r, Math.min(h - r, d['y'])); })

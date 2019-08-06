@@ -178,11 +178,14 @@ for (var i=0; i<this.graphData['links'].length; i++) {
             return 'rotate(0)';
           }
         });
-
+  // to set boundery to forcelayout
+        let r = this.circleRadius;
+        let w = this.width;
+        let h = this.height;
         // update label positions
         nodelabels
-          .attr("x", function (d) { return d['x']; })
-          .attr("y", function (d) { return d['y']; })
+          .attr("x", function (d) { return d['x'] = Math.max(r, Math.min(w - r, d['x'])); })
+          .attr("y", function (d) { return d['y'] = Math.max(r, Math.min(h - r, d['y'])); })
         link
           .attr("x1", d => d['source'].x)
           .attr("y1", d => d['source'].y)
@@ -190,10 +193,7 @@ for (var i=0; i<this.graphData['links'].length; i++) {
           .attr("y2", d => d['target'].y);
         // console.log('wh', window.innerWidth, window.innerHeight);
 
-        // to set boundery to forcelayout
-        let r = this.circleRadius;
-        let w = this.width;
-        let h = this.height;
+      
         node
           .attr("cx", function (d) { return d['x'] = Math.max(r, Math.min(w - r, d['x'])); })
           .attr("cy", function (d) { return d['y'] = Math.max(r, Math.min(h - r, d['y'])); })
