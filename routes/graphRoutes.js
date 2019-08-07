@@ -130,7 +130,7 @@ router.get('/graph/labeldata', (req, res) => {
             res.send(response);
         })
         .catch(err => {
-            console.log('err occured while sending back ', err);
+            console.log('err occured while sending back graph labels data', err);
             res.sendStatus(500);
         });
 });
@@ -141,15 +141,15 @@ router.get('/graph/labels', (req, res) => {
             res.send(result);
         })
         .catch(err => {
-            console.log('err occured while sending back labels data');
+            console.log('err occured while sending back labels');
             res.status(500).send(err);
         })
 })
 
-router.post('/graph/node/create', (req,res) => {
+router.post('/graph/node/create', (req, res) => {
     console.log('create node hit');
-     // get the body, else return the error that no body is provided
-     if (!!Object.keys(req.body).length) {
+    // get the body, else return the error that no body is provided
+    if (!!Object.keys(req.body).length) {
         neo4j.createNode(req)
             .then(response => {
                 res.send(response);
@@ -165,25 +165,24 @@ router.post('/graph/node/create', (req,res) => {
     }
 })
 
-router.post('/graph/node/update', (req,res) => {
+router.post('/graph/node/update', (req, res) => {
     console.log('update node hit');
-    if(!!Object.keys(req.body).length) {
+    if (!!Object.keys(req.body).length) {
         neo4j.updateNode(req)
-        .then(response => {
-            res.send(response);
-        })
-        .catch(err => {
-            console.log('err occured while sending back node update data', err);
-            res.status(400).send(err);
-        });
-    }
-    else {
+            .then(response => {
+                res.send(response);
+            })
+            .catch(err => {
+                console.log('err occured while sending back node update data', err);
+                res.status(400).send(err);
+            });
+    } else {
         // empty object not allowed
         res.status(400).send({ 'error': 'Request Body is required to access the API' });
     }
 });
 
-router.post('/graph/relation/create', (req,res) => {
+router.post('/graph/relation/create', (req, res) => {
     console.log('create relation hit');
     // get the body, else return the error that no body is provided
     if (!!Object.keys(req.body).length) {
@@ -203,17 +202,17 @@ router.post('/graph/relation/create', (req,res) => {
 
 });
 
-router.get('/graph/relations', (req,res) => {
+router.get('/graph/relations', (req, res) => {
     console.log('/graph/relations hit');
     neo4j.getRelations()
-    .then( response => {
-        console.log('sending back  data from /graph/relations')
-        res.send(response);
-    })
-    .catch( error => {
-        console.error('An Error occured while sending back relations data ->', error);
-        res.status(500).send({error : 'Something went wrong while sending back the data'});
-    })
+        .then(response => {
+            console.log('sending back  data from /graph/relations')
+            res.send(response);
+        })
+        .catch(error => {
+            console.error('An Error occured while sending back relations data ->', error);
+            res.status(500).send({ error: 'Something went wrong while sending back the data' });
+        })
 });
 
 module.exports = router;

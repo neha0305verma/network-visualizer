@@ -108,13 +108,13 @@ export class DashboardSidebarComponent implements OnInit {
         data['Name'].filter(nodeName => {
           temname.push(nodeName);
         });
-        data['Type'].filter(nodeType => {
-          // let x ={
-          //   name:node,
-          //   color:this.defaultColor[node]
-          // }
-          temtype.push(nodeType);
-        });
+        // data['Type'].filter(nodeType => {
+        //   // let x ={
+        //   //   name:node,
+        //   //   color:this.defaultColor[node]
+        //   // }
+        //   temtype.push(nodeType);
+        // });
         data['Status'].filter(nodeStatus => {
           temstatus.push(nodeStatus);
         });
@@ -127,20 +127,20 @@ export class DashboardSidebarComponent implements OnInit {
         data['Understanding of SP Thinking'].filter(nodeSP => {
           temunder.push(nodeSP);
         })
-        data['Relationships'].filter(nodeRelations => {
-          temrelation.push(nodeRelations);
-        });
+        // data['Relationships'].filter(nodeRelations => {
+        //   temrelation.push(nodeRelations);
+        // });
       
       }
       this.nameOptions = temname;
-      this.typeOptions = temtype;
+      // this.typeOptions = temtype;
       // send the types array for further use to the modals
       this.nodeTypesEvent.emit(temtype);
       this.representOptions = temrepresent;
       this.connectionOptions = temconnection;
       this.understandingOptions = temunder;
       this.statusOptions = temstatus;
-      this.relationOptions = temrelation;
+     // this.relationOptions = temrelation;
     });
   }
 

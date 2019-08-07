@@ -1,13 +1,15 @@
 .container-fluid .btn-group {
-    margin-right : 20px;
+    margin-right: 20px;
 }
 
 .btn-group:active {
-    outline : none;
+    outline: none;
     text-decoration: none;
 }
 
-.createLink, .editLink, .deleteLink {
+.createLink,
+.editLink,
+.deleteLink {
     text-decoration: none;
     font-size: 12px;
 }
@@ -16,51 +18,52 @@
     .dropdown-item {
         cursor: pointer;
         span {
-            margin-right : 8px;
+            margin-right: 8px;
         }
     }
     .dropdown-item:active {
         background-color: white;
     }
     .create:hover {
-        color : blue;
+        color: blue;
     }
     .edit:hover {
-        color : green;
+        color: green;
     }
     .delete:hover {
-        color : red;
+        color: red;
     }
 }
 
 .modal-header {
-    background : #5f5f5f;
-    color : white;
+    background: #5f5f5f;
+    color: white;
     border-color: #5f5f5f;
     button.close {
-        color : white;
+        color: white;
     }
 }
+
 .modalItem {
-    padding : 10px;
+    padding: 10px;
     .fa-info-circle {
-        font-size : 14px;
+        font-size: 14px;
         cursor: pointer;
     }
 }
 
 .sectionName {
-    display : inline-block;
-    margin : 0;
-    max-width : 50%;
+    display: inline-block;
+    margin: 0;
+    max-width: 50%;
 }
 
 .inputSpan {
-    position : absolute;
-    left : 50%;
+    position: absolute;
+    left: 50%;
     input {
-        border : 1px solid #acacac;
-        outline : none;
+        border: 1px solid #acacac;
+        outline: none;
     }
 }
 
@@ -72,4 +75,4 @@
 
 input[disabled="true"] {
     cursor: not-allowed;
-  }
+}

@@ -6,6 +6,7 @@ const neoConfig = require('./database_config/config.json');
 //import serializer to serialize for visJS format
 const serializer = require('./utility/serializer');
 const serializerv2 = require('./utility/serializerv2');
+const labelSerializer = require('./utility/labelSerializer/labelSerializer');
 
 // import data utility to process data
 const dataUtility = require('./utility/dataUtility');
@@ -586,12 +587,12 @@ function runQueryWithTypesV2(dataObj) {
 var getGraphLabelData = (query) => {
     let queryStatement = '';
 
-    queryStatement = `Match(n) RETURN n.Name,n.Connection,n.status,n.Represent,n.Url,n.\`Understanding of SP Thinking\`,labels(n) ORDER BY labels(n)`;
+    queryStatement = `Match(n) RETURN n.Name,n.Connection,n.Status,n.Represent,n.Url,n.\`Understanding of SP Thinking\`,labels(n) ORDER BY labels(n)`;
 
-    console.log('query for lable is ', queryStatement);
+    console.log('query for label is ', queryStatement);
 
     return runQuery(queryStatement).then(result => {
-        let serializedData = serializer.Neo4JtoVisFormat(JSON.stringify(result.records));
+        let serializedData = serializerv2.Neo4JtoVisFormat(JSON.stringify(result.records));
         return new Promise((resolve, reject) => {
             resolve(serializedData);
         });
@@ -775,6 +776,21 @@ var getRelations = () => {
     });
 }
 
+// for run query provided by utility
+var neo4jRunQuery = (query) => {
+    return runQuery(query)
+        .then(response => {
+            console.log("query : ", query);
+            console.log('Data recieved from database')
+            let serializedData = labelSerializer.Neo4JtoJsonFormat(JSON.stringify(response.records));
+            return Promise.resolve(serializedData);
+        })
+        .catch(err => {
+            console.log('an error occured while retrieving metadata for nodes', err);
+            neo4Jdriver.close();
+        });
+}
+
 module.exports = {
     initiate,
     getData,
@@ -788,5 +804,6 @@ module.exports = {
     createNode,
     updateNode,
     getRelations,
-    createRelation
+    createRelation,
+    neo4jRunQuery
 }
